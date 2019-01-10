@@ -12,6 +12,11 @@ public class EstacionamientoApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
+	
+	@Test
+	public void pruebaTest(){
+		assert(Boolean.TRUE);
+	}
 
 }
 
