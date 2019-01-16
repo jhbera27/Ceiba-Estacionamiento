@@ -2,9 +2,7 @@ package com.ceiba.estacionamiento.persistencia.repositorio;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import javax.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +13,7 @@ import com.ceiba.estacionamiento.dominio.repositorio.SalidaParqueaderoRepository
 import com.ceiba.estacionamiento.persistencia.builder.SalidaParqueaderoBuilder;
 import com.ceiba.estacionamiento.persistencia.builder.VehiculoBuilder;
 import com.ceiba.estacionamiento.persistencia.entity.SalidaParqueaderoEntity;
+import com.ceiba.estacionamiento.utils.Utils;
 
 /**
  * clase encargada de realizar toda la logica de negocio para la creacion de
@@ -80,7 +79,7 @@ public class SalidaParqueaderoPersistenciaRepository implements SalidaParqueader
 	public void agregar(SalidaParqueadero salidaParqueadero) {
 		Vehiculo vehiculoSalida = salidaParqueadero.getVehiculoSalida();
 		vehiculoSalida.setEstaParqueado(Boolean.FALSE);
-		if (TipoVehiculoEnum.MOTO.equals(vehiculoSalida.getTipo())) {
+		if (TipoVehiculoEnum.MOTO.name().equals(vehiculoSalida.getTipo())) {
 			salidaParqueadero.setPrecioPagado(calcularPrecioAPagar(vehiculoSalida, VALOR_HORA_MOTO, VALOR_DIA_MOTO));
 		} else {
 			salidaParqueadero.setPrecioPagado(calcularPrecioAPagar(vehiculoSalida, VALOR_HORA_CARRO, VALOR_DIA_CARRO));
@@ -100,10 +99,10 @@ public class SalidaParqueaderoPersistenciaRepository implements SalidaParqueader
 	 */
 	@Override
 	public BigDecimal calcularPrecioAPagar(Vehiculo vehiculoSalida, int valorHoraVehiculo, int valorDiaVehiculo) {
-		Long horasDiferencia = diferenciaHoras(vehiculoSalida.getFechaIngreso());
+		Long horasDiferencia = Utils.diferenciaHoras(vehiculoSalida.getFechaIngreso());
 		BigDecimal pago = new BigDecimal(0);
 		if (HORAS_POR_DIA >= horasDiferencia) {
-			pago = calcularPrecioPorHoras(horasDiferencia, valorHoraVehiculo);
+			pago = Utils.calcularPrecioPorHoras(horasDiferencia, valorHoraVehiculo);
 		} else if (horasDiferencia <= 24) {
 			pago = pago.add(new BigDecimal(valorDiaVehiculo));
 		} else {
@@ -119,7 +118,8 @@ public class SalidaParqueaderoPersistenciaRepository implements SalidaParqueader
 				pago = pago.add(horasDos.multiply(new BigDecimal(valorHoraVehiculo)));
 			}
 		}
-		if (TipoVehiculoEnum.MOTO.equals(vehiculoSalida.getTipo()) && CILINDRAJE < vehiculoSalida.getCilindraje()) {
+		if (TipoVehiculoEnum.MOTO.name().equals(vehiculoSalida.getTipo())
+				&& CILINDRAJE < vehiculoSalida.getCilindraje()) {
 			pago = pago.add(new BigDecimal(VALOR_ADICIONAL_MOTO));
 		}
 		return pago;
@@ -144,29 +144,5 @@ public class SalidaParqueaderoPersistenciaRepository implements SalidaParqueader
 		return listaSalidaParqueadero;
 	}
 
-	/**
-	 * Método encargado de calcular el precio de las horas en el parqueadero
-	 * 
-	 * @param horas, el numero de horas que estuvo el vehiculo en el paruqeadero
-	 * @param precio, el precio por cado hora
-	 * @return el precio a pagar por las horas
-	 */
-	private BigDecimal calcularPrecioPorHoras(Long horas, int precio) {
-		BigDecimal horasBigdecimal = new BigDecimal(horas);
-		return horasBigdecimal.multiply(new BigDecimal(precio));
-	}
 
-	/**
-	 * Método encargado de calcular la diferencia de horas entre la fecha ingreso y
-	 * la fecha de salida
-	 * 
-	 * @param fecha, la fecha de ingreso al parqueadero
-	 * @return diferencia en horas entre la fecha de ingreso y salida
-	 */
-	private Long diferenciaHoras(Date fecha) {
-		Long diferencia = new Date().getTime() - fecha.getTime();
-		Long roundedtimeMs = Math.round((double) diferencia / (15 * 60 * 1000)) * (15 * 60 * 1000);
-		return TimeUnit.MILLISECONDS.toHours(roundedtimeMs);
-
-	}
 }

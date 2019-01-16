@@ -1,13 +1,10 @@
 package com.ceiba.estacionamiento.controller;
 
 import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ceiba.estacinamiento.dominio.Vehiculo;
 import com.ceiba.estacionamiento.dominio.repositorio.VehiculoRepository;
 
@@ -21,6 +18,9 @@ import com.ceiba.estacionamiento.dominio.repositorio.VehiculoRepository;
 @RequestMapping("/vehiculo")
 public class VehiculoController {
 
+	/**
+	 * Atributo que determina el repositorio de vehiculo 
+	 */
 	VehiculoRepository vehiculoRepository;
 
 	/**
@@ -38,7 +38,7 @@ public class VehiculoController {
 	 * 
 	 * @return lista de vehiculos estacionado actualmente en el parqueadero
 	 */
-	@GetMapping("/obtenerVehiculos")
+	@RequestMapping("/obtenerVehiculos")
 	public List<Vehiculo> obtenerVehiculos() {
 		return vehiculoRepository.obtenerVehiculos();
 	}

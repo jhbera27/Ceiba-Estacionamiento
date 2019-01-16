@@ -3,8 +3,6 @@ package com.ceiba.estacinamiento.dominio;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
-
 /**
  * clase que representa el objeto vehiculo para el dominio
  * 
@@ -31,15 +29,21 @@ public class Vehiculo implements Serializable {
 	/**
 	 * atributo que determina el tipo de vehiculo (carro o moto)
 	 */
-	private TipoVehiculoEnum tipo;
+	private String tipo;
 	/**
 	 * atributo que determina el ciclindraje del vehiculo
 	 */
-	private Integer cilindraje;
+	private int cilindraje;
 	/**
 	 * atributo que determina si el vehiculo se encuentra parqueado
 	 */
 	private Boolean estaParqueado;
+	/**
+	 * Constructo para la serializacion
+	 */
+	public Vehiculo() {
+		
+	}
 
 	/**
 	 * Método constructor del vehiculo para el dominio
@@ -51,7 +55,7 @@ public class Vehiculo implements Serializable {
 	 * @param cilindraje, el cilindraje del vehiculo
 	 * @param estaParqueado, si se encuentra parqueado true, false en caso contrario
 	 */
-	public Vehiculo(Long id, String placa, Date fechaIngreso, TipoVehiculoEnum tipo, Integer cilindraje,
+	public Vehiculo(Long id, String placa, Date fechaIngreso, String tipo, Integer cilindraje,
 			Boolean estaParqueado) {
 		this.id = id;
 		this.placa = placa;
@@ -120,7 +124,7 @@ public class Vehiculo implements Serializable {
 	 * 
 	 * @return tipo, el tipo de vehiculo
 	 */
-	public TipoVehiculoEnum getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
@@ -129,7 +133,7 @@ public class Vehiculo implements Serializable {
 	 * 
 	 * @param tipo, el nuevo tipo de vehiculo
 	 */
-	public void setTipo(TipoVehiculoEnum tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 

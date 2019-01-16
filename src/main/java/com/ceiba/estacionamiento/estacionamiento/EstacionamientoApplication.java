@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * clase encargada de la inizializacion del proyecto
@@ -12,6 +13,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  *
  */
 @SpringBootApplication()
+@ComponentScan({ "com.ceiba.estacionamiento.controller", "com.ceiba.estacionamiento.persistencia.repositorio",
+		"com.ceiba.estacionamiento.estacionamiento" })
 @EnableConfigurationProperties
 @EntityScan(basePackages = { "com.ceiba.estacionamiento.persistencia.entity" }) // scan JPA entities
 public class EstacionamientoApplication {

@@ -87,7 +87,7 @@ public class SalidaParqueaderoPersistenciaRepositoryIntegracion {
 	private void datosAgregarSalidaParqueaderoTest(String fecha, TipoVehiculoEnum tipo) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Date fechaDate = formatter.parse(fecha);
-		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fechaDate).conTipo(tipo).build();
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fechaDate).conTipo(tipo.name()).build();
 		vehiculoRepository.agregar(vehiculo);
 	}
 	

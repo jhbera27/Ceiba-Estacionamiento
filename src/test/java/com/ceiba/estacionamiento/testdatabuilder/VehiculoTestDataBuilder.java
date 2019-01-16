@@ -1,7 +1,6 @@
 package com.ceiba.estacionamiento.testdatabuilder;
 
 import java.util.Date;
-import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
 
 /**
@@ -21,6 +20,10 @@ public class VehiculoTestDataBuilder {
 	 * cilindraje por defecto del objeto VehiculoTestDataBuilder
 	 */
 	private static final int CILINDRAGE = 650;
+	/**
+	 * cilindraje por defecto del objeto VehiculoTestDataBuilder
+	 */
+	private static final String MOTO = "MOTO";
 
 	/**
 	 * atributo que determina el identificador del vehiculo
@@ -37,7 +40,7 @@ public class VehiculoTestDataBuilder {
 	/**
 	 * atributo que determina el tipo de vehiculo (carro o moto)
 	 */
-	private TipoVehiculoEnum tipo;
+	private String tipo;
 	/**
 	 * atributo que determina el ciclindraje del vehiculo
 	 */
@@ -52,7 +55,7 @@ public class VehiculoTestDataBuilder {
 	 */
 	public VehiculoTestDataBuilder() {
 		this.placa = PLACA;
-		this.tipo = TipoVehiculoEnum.MOTO;
+		this.tipo = MOTO;
 		this.cilindraje = CILINDRAGE;
 		this.estaParqueado = Boolean.TRUE;
 	}
@@ -104,7 +107,7 @@ public class VehiculoTestDataBuilder {
 	 * @return VehiculoTestDataBuilder, el vehiculo data builder con el atributo
 	 *         seteado
 	 */
-	public VehiculoTestDataBuilder conTipo(TipoVehiculoEnum tipo) {
+	public VehiculoTestDataBuilder conTipo(String tipo) {
 		this.tipo = tipo;
 		return this;
 	}

@@ -32,6 +32,12 @@ public class SalidaParqueadero implements Serializable {
 	 * atributo que determina la fecha de salida del vehiculo del parqueadero
 	 */
 	private Date fechaSalida;
+	/**
+	 * constructor para la serializacion
+	 */
+	public SalidaParqueadero() {
+		
+	}
 
 	/**
 	 * Método contructor para el SalidaParqueadero del dominio

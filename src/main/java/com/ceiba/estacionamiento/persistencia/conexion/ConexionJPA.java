@@ -18,7 +18,7 @@ public class ConexionJPA {
 	/**
 	 * instanciacion del EntityManagerFactory
 	 */
-	private static EntityManagerFactory entityManagerFactory;
+	private EntityManagerFactory entityManagerFactory;
 
 	/**
 	 * contructor de la clase, donde se inicializa el entityManagerFactory

@@ -2,6 +2,7 @@ package com.ceiba.estacionamiento.persistencia.builder;
 
 import java.util.Date;
 
+import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
 import com.ceiba.estacionamiento.persistencia.entity.VehiculoEntity;
 
@@ -31,7 +32,7 @@ public class VehiculoBuilder {
 
 		if (vehiculoEntity != null) {
 			vehiculo = new Vehiculo(vehiculoEntity.getId(), vehiculoEntity.getPlaca(), vehiculoEntity.getFechaIngreso(),
-					vehiculoEntity.getTipo(), vehiculoEntity.getCilindraje(), vehiculoEntity.getEstaParqueado());
+					vehiculoEntity.getTipo().name(), vehiculoEntity.getCilindraje(), vehiculoEntity.getEstaParqueado());
 
 		}
 		return vehiculo;
@@ -50,9 +51,9 @@ public class VehiculoBuilder {
 		vehiculoEntity.setId(vehiculo.getId());
 		vehiculoEntity.setPlaca(vehiculo.getPlaca());
 		vehiculoEntity.setFechaIngreso(vehiculo.getFechaIngreso() != null ? vehiculo.getFechaIngreso() : new Date());
-		vehiculoEntity.setTipo(vehiculo.getTipo());
+		vehiculoEntity.setTipo(TipoVehiculoEnum.valueOf(vehiculo.getTipo()));
 		vehiculoEntity.setCilindraje(vehiculo.getCilindraje());
-		vehiculoEntity.setEstaParqueado(Boolean.TRUE);
+		vehiculoEntity.setEstaParqueado(vehiculo.getEstaParqueado());
 
 		return vehiculoEntity;
 	}
