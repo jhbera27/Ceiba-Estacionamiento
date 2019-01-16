@@ -151,6 +151,27 @@ public class SalidaParqueaderoPersistenciaRepositoryTest {
 	}
 
 	/**
+	 * Método encargado de verificar el metodo calcularPrecioAPagar cuando es menor
+	 * a una hora
+	 * 
+	 * @throws ParseException, excepcion generada al intentar convertir una fecha
+	 */
+	@Test
+	public void calcularPrecioAPagarUnaHora() throws ParseException {
+		// arrange
+		Date fecha = new Date();
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fecha).build();
+		vehiculoRepository.agregar(vehiculo);
+		// act
+		BigDecimal precioPagado = salidaParqueaderoRepository.calcularPrecioAPagar(vehiculo,
+				SalidaParqueaderoPersistenciaRepository.VALOR_HORA_MOTO,
+				SalidaParqueaderoPersistenciaRepository.VALOR_DIA_MOTO);
+		// assert
+		Assert.assertNotNull(precioPagado);
+		Assert.assertEquals(new BigDecimal(2500), precioPagado);
+	}
+
+	/**
 	 * Método encargado de verificar el metodo calcularPrecioAPagar y que el precio
 	 * sea cobrado por horas
 	 * 

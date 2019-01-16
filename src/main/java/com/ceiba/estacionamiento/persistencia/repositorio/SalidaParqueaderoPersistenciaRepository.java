@@ -143,6 +143,4 @@ public class SalidaParqueaderoPersistenciaRepository implements SalidaParqueader
 		}
 		return listaSalidaParqueadero;
 	}
-
-
 }

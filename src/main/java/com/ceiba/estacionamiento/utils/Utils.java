@@ -46,8 +46,7 @@ public class Utils {
 			LocalDate today = LocalDate.now();
 			DayOfWeek day = today.getDayOfWeek();
 			Set<DayOfWeek> diasNoPermitidos = EnumSet.of(DayOfWeek.SUNDAY, DayOfWeek.MONDAY);
-			return !diasNoPermitidos.contains(day);
-
+            return diasNoPermitidos.contains(day);
 		}
 		return Boolean.TRUE;
 	}
@@ -78,7 +77,6 @@ public class Utils {
 		} else {
 			diferenciaHoras = diferenciaHoras / HORA_EN_MILISEGUNDOS;
 			Long fraccion = diferenciaHoras % HORA_EN_MILISEGUNDOS;
-
 			return fraccion > 0 ? diferenciaHoras + 1 : diferenciaHoras;
 		}
 	}
