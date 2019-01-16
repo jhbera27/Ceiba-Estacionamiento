@@ -1,5 +1,6 @@
 package com.ceiba.estacionamiento.unitaria;
 
+import static org.mockito.Mockito.when;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +9,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
 import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
 import com.ceiba.estacinamiento.dominio.SalidaParqueadero;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
@@ -17,6 +23,7 @@ import com.ceiba.estacionamiento.persistencia.repositorio.VehiculoPersistenciaRe
 import com.ceiba.estacionamiento.sistema.SistemaDePersistencia;
 import com.ceiba.estacionamiento.testdatabuilder.SalidaParqueaderoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
+import com.ceiba.estacionamiento.utils.Utils;
 
 /**
  * clase que permite realizar las pruebas unitarias para la clase
@@ -25,6 +32,8 @@ import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
  * @author jhon.bedoya
  *
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest( { Utils.class})
 public class VehiculoPersistenciaRepositoryTest {
 	/**
 	 * instanciación del sistema de persistencia para las pruebas unitarias
@@ -60,6 +69,8 @@ public class VehiculoPersistenciaRepositoryTest {
 	public void agregarVehiculoExitoTest() {
 		// arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.verificarPlaca(vehiculo.getPlaca())).thenReturn(Boolean.TRUE);
 		// act
 		vehiculoRepository.agregar(vehiculo);
 		// assert
@@ -76,6 +87,8 @@ public class VehiculoPersistenciaRepositoryTest {
 		// arrange
 		datosAgregarMotoSinCupoTest();
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.verificarPlaca(vehiculoTest.getPlaca())).thenReturn(Boolean.TRUE);
 		try {
 			// act
 			vehiculoRepository.agregar(vehiculoTest);
@@ -97,6 +110,8 @@ public class VehiculoPersistenciaRepositoryTest {
 		datosAgregarCarroSinCupoTest();
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PII21k").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.verificarPlaca(vehiculoTest.getPlaca())).thenReturn(Boolean.TRUE);
 		try {
 			// act
 			vehiculoRepository.agregar(vehiculoTest);
@@ -123,6 +138,8 @@ public class VehiculoPersistenciaRepositoryTest {
 		String dateInString = "11/01/2019";
 		Date fecha = formatter.parse(dateInString);
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("AII21k").conFechaIngreso(fecha).build();
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.verificarPlaca(vehiculoTest.getPlaca())).thenReturn(Boolean.FALSE);
 		try {
 			// act
 			vehiculoRepository.agregar(vehiculoTest);
@@ -156,6 +173,8 @@ public class VehiculoPersistenciaRepositoryTest {
 		SalidaParqueadero salidaParqueadero = new SalidaParqueaderoTestDataBuilder()
 				.conVehiculoSalida(vehiculoConsultadoArrange).build();
 		SalidaParqueaderoRepository.agregar(salidaParqueadero);
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.verificarPlaca(vehiculoTest.getPlaca())).thenReturn(Boolean.TRUE);
 		// act
 		vehiculoRepository.agregar(vehiculoTest);
 		// assert
@@ -177,10 +196,8 @@ public class VehiculoPersistenciaRepositoryTest {
 		// arrange
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("LTT26H").build();
 		vehiculoRepository.agregar(vehiculoTest);
-
 		// act
 		Vehiculo vehiculoConsultado = vehiculoRepository.buscarVehiculoPorPlaca("LTT26H");
-
 		// assert
 		Assert.assertNotNull(vehiculoConsultado);
 	}
@@ -198,10 +215,8 @@ public class VehiculoPersistenciaRepositoryTest {
 		// arrange
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("LTT26H").build();
 		vehiculoRepository.agregar(vehiculoTest);
-
 		// act
 		Vehiculo vehiculoConsultado = vehiculoRepository.buscarVehiculoPorPlaca("LZT50H");
-
 		// assert
 		Assert.assertNull(vehiculoConsultado);
 	}
@@ -222,10 +237,8 @@ public class VehiculoPersistenciaRepositoryTest {
 		Vehiculo vehiculoTest2 = new VehiculoTestDataBuilder().conPlaca("LTP34H").build();
 		vehiculoRepository.agregar(vehiculoTest2);
 		int size = 2;
-
 		// act
 		List<Vehiculo> listaVehiculos = vehiculoRepository.obtenerVehiculos();
-
 		// assert
 		Assert.assertNotNull(listaVehiculos);
 		Assert.assertEquals(size, listaVehiculos.size());

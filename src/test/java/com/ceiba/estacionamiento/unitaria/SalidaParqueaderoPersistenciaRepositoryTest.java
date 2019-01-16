@@ -1,5 +1,7 @@
 package com.ceiba.estacionamiento.unitaria;
 
+import static org.mockito.Mockito.when;
+
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +12,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
 import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
 import com.ceiba.estacinamiento.dominio.SalidaParqueadero;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
@@ -19,6 +26,7 @@ import com.ceiba.estacionamiento.persistencia.repositorio.SalidaParqueaderoPersi
 import com.ceiba.estacionamiento.sistema.SistemaDePersistencia;
 import com.ceiba.estacionamiento.testdatabuilder.SalidaParqueaderoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
+import com.ceiba.estacionamiento.utils.Utils;
 
 /**
  * clase que permite realizar las pruebas unitarias para la clase
@@ -27,6 +35,8 @@ import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
  * @author jhon.bedoya
  *
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest( { Utils.class})
 public class SalidaParqueaderoPersistenciaRepositoryTest {
 	/**
 	 * instanciación del sistema de persistencia para las pruebas unitarias
@@ -91,7 +101,6 @@ public class SalidaParqueaderoPersistenciaRepositoryTest {
 		SalidaParqueadero salidaParqueadero = new SalidaParqueaderoTestDataBuilder()
 				.conVehiculoSalida(vehiculoConsultado).build();
 		int size = 1;
-
 		// act
 		salidaParqueaderoRepository.agregar(salidaParqueadero);
 		// assert
@@ -141,6 +150,8 @@ public class SalidaParqueaderoPersistenciaRepositoryTest {
 		fechaC.set(Calendar.MINUTE, fechaC.get(Calendar.MINUTE) - 20);
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fechaC.getTime()).build();
 		vehiculoRepository.agregar(vehiculo);
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.calcularPrecioAPagar(vehiculo, 500, 4000)).thenReturn(new BigDecimal(4000));
 		// act
 		BigDecimal precioPagado = salidaParqueaderoRepository.calcularPrecioAPagar(vehiculo,
 				SalidaParqueaderoPersistenciaRepository.VALOR_HORA_MOTO,
@@ -162,6 +173,8 @@ public class SalidaParqueaderoPersistenciaRepositoryTest {
 		Date fecha = new Date();
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fecha).build();
 		vehiculoRepository.agregar(vehiculo);
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.calcularPrecioAPagar(vehiculo, 500, 4000)).thenReturn(new BigDecimal(2500));
 		// act
 		BigDecimal precioPagado = salidaParqueaderoRepository.calcularPrecioAPagar(vehiculo,
 				SalidaParqueaderoPersistenciaRepository.VALOR_HORA_MOTO,
@@ -182,6 +195,8 @@ public class SalidaParqueaderoPersistenciaRepositoryTest {
 		// arrange
 		datosCalcularPrecioApagar(0, 10);
 		Vehiculo vehiculo = vehiculoRepository.buscarVehiculoPorPlaca("PQT29G");
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.calcularPrecioAPagar(vehiculo, 1000, 8000)).thenReturn(new BigDecimal(8000));
 		// act
 		BigDecimal precioPagado = salidaParqueaderoRepository.calcularPrecioAPagar(vehiculo,
 				SalidaParqueaderoPersistenciaRepository.VALOR_HORA_CARRO,
@@ -202,6 +217,8 @@ public class SalidaParqueaderoPersistenciaRepositoryTest {
 		// arrange
 		datosCalcularPrecioApagar(1, 1);
 		Vehiculo vehiculo = vehiculoRepository.buscarVehiculoPorPlaca("PQT29G");
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.calcularPrecioAPagar(vehiculo, 1000, 8000)).thenReturn(new BigDecimal(10000));
 		// act
 		BigDecimal precioPagado = salidaParqueaderoRepository.calcularPrecioAPagar(vehiculo,
 				SalidaParqueaderoPersistenciaRepository.VALOR_HORA_CARRO,
@@ -222,6 +239,8 @@ public class SalidaParqueaderoPersistenciaRepositoryTest {
 		// arrange
 		datosCalcularPrecioApagar(1, 10);
 		Vehiculo vehiculo = vehiculoRepository.buscarVehiculoPorPlaca("PQT29G");
+		PowerMockito.mockStatic(Utils.class);
+		when(Utils.calcularPrecioAPagar(vehiculo, 1000, 8000)).thenReturn(new BigDecimal(18000));
 		// act
 		BigDecimal precioPagado = salidaParqueaderoRepository.calcularPrecioAPagar(vehiculo,
 				SalidaParqueaderoPersistenciaRepository.VALOR_HORA_CARRO,

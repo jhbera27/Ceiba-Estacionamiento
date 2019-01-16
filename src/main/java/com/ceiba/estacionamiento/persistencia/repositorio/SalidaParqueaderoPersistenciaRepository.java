@@ -25,10 +25,7 @@ import com.ceiba.estacionamiento.utils.Utils;
 @Service
 @Transactional
 public class SalidaParqueaderoPersistenciaRepository implements SalidaParqueaderoRepository {
-	/**
-	 * atributo que representa el numero de horas por dia en el parqueadero
-	 */
-	private static final int HORAS_POR_DIA = 9;
+
 	/**
 	 * atributo que representa el valor de una hora para una moto en el parqueadero
 	 */
@@ -45,15 +42,6 @@ public class SalidaParqueaderoPersistenciaRepository implements SalidaParqueader
 	 * atributo que representa el valor de un dia para un carro en el parqueadero
 	 */
 	public static final int VALOR_DIA_MOTO = 4000;
-	/**
-	 * atributo que representa el valor adicional que debe pagar una moto si su
-	 * cilindraje es mayor a 500
-	 */
-	private static final int VALOR_ADICIONAL_MOTO = 2000;
-	/**
-	 * atributo que representa el cilindraje base de una moto
-	 */
-	private static final int CILINDRAJE = 500;
 	/**
 	 * atributo que representa el contexto de persistencia para el repository
 	 */
@@ -99,30 +87,7 @@ public class SalidaParqueaderoPersistenciaRepository implements SalidaParqueader
 	 */
 	@Override
 	public BigDecimal calcularPrecioAPagar(Vehiculo vehiculoSalida, int valorHoraVehiculo, int valorDiaVehiculo) {
-		Long horasDiferencia = Utils.diferenciaHoras(vehiculoSalida.getFechaIngreso());
-		BigDecimal pago = new BigDecimal(0);
-		if (HORAS_POR_DIA >= horasDiferencia) {
-			pago = Utils.calcularPrecioPorHoras(horasDiferencia, valorHoraVehiculo);
-		} else if (horasDiferencia <= 24) {
-			pago = pago.add(new BigDecimal(valorDiaVehiculo));
-		} else {
-			BigDecimal numDias = new BigDecimal(horasDiferencia / 24);
-			pago = numDias.multiply(new BigDecimal(valorDiaVehiculo));
-			BigDecimal horas = new BigDecimal(horasDiferencia % 24);
-			if (HORAS_POR_DIA >= horas.intValue()) {
-				pago = pago.add(horas.multiply(new BigDecimal(valorHoraVehiculo)));
-			} else {
-				BigDecimal numDiasDos = new BigDecimal(horas.intValue() / HORAS_POR_DIA);
-				BigDecimal horasDos = new BigDecimal(horas.intValue() % HORAS_POR_DIA);
-				pago = pago.add(numDiasDos.multiply(new BigDecimal(valorDiaVehiculo)));
-				pago = pago.add(horasDos.multiply(new BigDecimal(valorHoraVehiculo)));
-			}
-		}
-		if (TipoVehiculoEnum.MOTO.name().equals(vehiculoSalida.getTipo())
-				&& CILINDRAJE < vehiculoSalida.getCilindraje()) {
-			pago = pago.add(new BigDecimal(VALOR_ADICIONAL_MOTO));
-		}
-		return pago;
+		return Utils.calcularPrecioAPagar(vehiculoSalida,valorHoraVehiculo,valorDiaVehiculo);
 	}
 
 	/**
