@@ -21,7 +21,7 @@ public class VehiculoController {
 	/**
 	 * Atributo que determina el repositorio de vehiculo 
 	 */
-	VehiculoRepository vehiculoRepository;
+	private VehiculoRepository vehiculoRepository;
 
 	/**
 	 * Método contructor para el controller
