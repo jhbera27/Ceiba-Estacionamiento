@@ -16,6 +16,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'war'
 apply plugin: 'jacoco'
+apply plugin: 'sonar-runner' 
 
 group = 'com.ceiba.estacionamiento'
 version = '0.0.1-SNAPSHOT'
