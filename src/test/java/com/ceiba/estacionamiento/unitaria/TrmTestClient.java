@@ -9,8 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import com.ceiba.estacinamiento.dominio.Trm;
 import com.ceiba.estacionamiento.persistencia.repositorio.TrmPersistenciaRepository;
-import com.ceiba.estacionamiento.trm.TCRMServicesInterfaceProxy;
-import com.ceiba.estacionamiento.trm.TcrmResponse;
+
+import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TCRMServicesInterfaceProxy;
+import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TcrmResponse;
+
 
 /**
  * Clase para probar el servicio web de la superintendencia

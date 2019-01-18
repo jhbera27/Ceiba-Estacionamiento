@@ -27,11 +27,7 @@ repositories {
 }
 
 dependencies {
-
-    compile group: 'org.apache.axis', name: 'axis', version: '1.4'
-    compile group: 'javax.xml', name: 'jaxrpc-api', version: '1.1'
-    compile group: 'commons-discovery', name: 'commons-discovery', version: '0.5'
-    compile group: 'wsdl4j', name: 'wsdl4j', version: '1.6.2'
+    compile fileTree(dir: 'lib', include: '*.jar')
     compile group: 'org.webjars', name: 'angular-protractor', version: '1.6.1'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ceiba.estacinamiento.dominio.Trm;
 import com.ceiba.estacionamiento.dominio.repositorio.TrmRepository;
-import com.ceiba.estacionamiento.trm.TCRMServicesInterfaceProxy;
-import com.ceiba.estacionamiento.trm.TcrmResponse;
+
+import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TCRMServicesInterfaceProxy;
+import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TcrmResponse;
+
 
 /**
  * clase creada para obtener el trm de la superintendencia
