@@ -1,6 +1,5 @@
 package com.ceiba.estacionamiento.integracion;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,13 +24,14 @@ import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
  *
  */
 public class VehiculoPersistenciaRepositoryIntegracionTest {
-	
+
 	/**
 	 * instanciación del sistema de persistencia para las pruebas unitarias
 	 */
 	private SistemaDePersistencia sistemaDePersistencia;
 	/**
-	 * instanciación del repositorio de salida de vehiculos para las pruebas unitarias
+	 * instanciación del repositorio de salida de vehiculos para las pruebas
+	 * unitarias
 	 */
 	private SalidaParqueaderoPersistenciaRepository SalidaParqueaderoRepository;
 	/**
@@ -66,14 +66,9 @@ public class VehiculoPersistenciaRepositoryIntegracionTest {
 		Assert.assertNotNull(vehiculoRepository.buscarVehiculoPorPlaca("PQT29G"));
 	}
 
-
 	/**
 	 * Método encargado de verificar que se genere un error al intentar ingresar un
 	 * vehiculo con placa no autorizada
-	 * 
-	 * RESULTADO ESPERADO: que se genere una excepcion al intentar ingresar un
-	 * vehiculo porque la placa del vehiculo empieza por A y no es un dia valido
-	 * para esa placa
 	 * 
 	 * @throws ParseException, excepcion generada al intentar convertir una fecha
 	 */
@@ -96,10 +91,6 @@ public class VehiculoPersistenciaRepositoryIntegracionTest {
 	/**
 	 * Método encargado de verificar que se actualice un vehiculo que se encontraba
 	 * creado pero en estado no parqueado con la nueva informacion de entrada al
-	 * parqueadero
-	 * 
-	 * RESULTADO ESPERADO: que se actualice correctamente un vehiculo que ya se
-	 * encontraba creado y que se desea actualizar los datos del nuevo ingreso al
 	 * parqueadero
 	 * 
 	 * @throws ParseException, excepcion generada al intentar convertir una fecha
@@ -125,7 +116,6 @@ public class VehiculoPersistenciaRepositoryIntegracionTest {
 		Assert.assertTrue(vehiculoConsultado.getEstaParqueado());
 	}
 
-
 	/**
 	 * método encargado de finalizar la conexion para las pruebas unitarias
 	 */
@@ -133,6 +123,5 @@ public class VehiculoPersistenciaRepositoryIntegracionTest {
 	public void tearDown() {
 		sistemaDePersistencia.terminar();
 	}
-
 
 }

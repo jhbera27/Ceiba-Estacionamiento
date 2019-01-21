@@ -6,6 +6,7 @@ import com.ceiba.estacionamiento.dominio.repositorio.SalidaParqueaderoRepository
 import com.ceiba.estacionamiento.dominio.repositorio.VehiculoRepository;
 import com.ceiba.estacionamiento.persistencia.conexion.ConexionJPA;
 import com.ceiba.estacionamiento.persistencia.repositorio.SalidaParqueaderoPersistenciaRepository;
+import com.ceiba.estacionamiento.persistencia.repositorio.TrmPersistenciaRepository;
 import com.ceiba.estacionamiento.persistencia.repositorio.VehiculoPersistenciaRepository;
 
 /**
@@ -46,6 +47,16 @@ public class SistemaDePersistencia {
 	 */
 	public SalidaParqueaderoRepository obtenerSalidaParqueaderoRepository() {
 		return new SalidaParqueaderoPersistenciaRepository(entityManager);
+	}
+
+	/**
+	 * método encargado de unicializar el TrmPersistenciaRepository
+	 * 
+	 * @return TrmPersistenciaRepository, el repository para permitir el acceso a
+	 *         probar la conexion con el trm
+	 */
+	public TrmPersistenciaRepository obtenerTrmPersistenciaRepository() {
+		return new TrmPersistenciaRepository();
 	}
 
 	/**

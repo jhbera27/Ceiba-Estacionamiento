@@ -1,7 +1,5 @@
 package com.ceiba.estacionamiento.integracion;
 
-
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -40,7 +38,6 @@ public class SalidaParqueaderoPersistenciaRepositoryIntegracion {
 	 */
 	private VehiculoRepository vehiculoRepository;
 
-
 	/**
 	 * método encargado de inicializar el contexto de pertistencia para las pruebas
 	 * unitarias
@@ -52,7 +49,7 @@ public class SalidaParqueaderoPersistenciaRepositoryIntegracion {
 		vehiculoRepository = sistemaDePersistencia.obtenerVehiculoRepository();
 		sistemaDePersistencia.iniciar();
 	}
-	
+
 	/**
 	 * Método encargado de verificar el metodo calcularPrecioAPagar y que el precio
 	 * sea cobrado por horas
@@ -158,7 +155,7 @@ public class SalidaParqueaderoPersistenciaRepositoryIntegracion {
 		Assert.assertNotNull(precioPagado);
 		Assert.assertEquals(new BigDecimal(18000), precioPagado);
 	}
-	
+
 	/**
 	 * método encargado de crear los datos para la prueba CalcularPrecioAPagar
 	 * 
@@ -176,8 +173,6 @@ public class SalidaParqueaderoPersistenciaRepositoryIntegracion {
 		vehiculoRepository.agregar(vehiculo);
 	}
 
-
-	
 	/**
 	 * método encargado de finalizar la conexion para las pruebas unitarias
 	 */
