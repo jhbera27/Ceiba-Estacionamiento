@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ceiba.estacinamiento.dominio.CalcularPrecio;
 import com.ceiba.estacinamiento.dominio.SalidaParqueadero;
-import com.ceiba.estacionamiento.dominio.repositorio.SalidaParqueaderoRepository;
+import com.ceiba.estacionamiento.persistencia.service.SalidaParqueaderoService;
 
 /**
  * clase que expone los servicios a consumir para la salida del parqueadero
@@ -18,11 +18,11 @@ import com.ceiba.estacionamiento.dominio.repositorio.SalidaParqueaderoRepository
  */
 @RestController
 @RequestMapping("/salidaParqueadero")
-public class SalidaParquedaeroController {
+public class SalidaParqueaderoController {
 	/**
 	 * Atributo para manejar el repositorio de salida de vehiculos del parqueadero
 	 */
-	SalidaParqueaderoRepository salidaParqueaderoRepository;
+	private SalidaParqueaderoService salidaParqueaderoService;
 
 	/**
 	 * Método constructor de la clase
@@ -30,8 +30,8 @@ public class SalidaParquedaeroController {
 	 * @param salidaParqueaderoRepository, el repository para realizar la
 	 *        transaccion
 	 */
-	public SalidaParquedaeroController(SalidaParqueaderoRepository salidaParqueaderoRepository) {
-		this.salidaParqueaderoRepository = salidaParqueaderoRepository;
+	public SalidaParqueaderoController(SalidaParqueaderoService salidaParqueaderoService) {
+		this.salidaParqueaderoService = salidaParqueaderoService;
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class SalidaParquedaeroController {
 	 */
 	@PostMapping("/crearSalidaParqueadero")
 	public void crearSalidaParqueadero(@RequestBody SalidaParqueadero salidaParqueadero) {
-		salidaParqueaderoRepository.agregar(salidaParqueadero);
+		salidaParqueaderoService.agregar(salidaParqueadero);
 	}
     /**
      * Servicio encargado de consultar el precio a pagar por el vehiculo 
@@ -51,7 +51,7 @@ public class SalidaParquedaeroController {
      */
 	@PostMapping("/calcularValor")
 	public BigDecimal calcularValor(@RequestBody CalcularPrecio calcularPrecio) {
-		return salidaParqueaderoRepository.calcularPrecioAPagar(calcularPrecio.getVehiculoSalida(),
+		return salidaParqueaderoService.calcularPrecioAPagar(calcularPrecio.getVehiculoSalida(),
 				calcularPrecio.getValorHoraVehiculo(), calcularPrecio.getValorDiaVehiculo());
 	}
     
@@ -61,6 +61,6 @@ public class SalidaParquedaeroController {
 	 */
 	@RequestMapping("/obtenerSalidas")
 	public List<SalidaParqueadero> obtenerSalidas() {
-		return salidaParqueaderoRepository.obtenerSalidaVehiculosParqueadero();
+		return salidaParqueaderoService.obtenerSalidaVehiculosParqueadero();
 	}
 }

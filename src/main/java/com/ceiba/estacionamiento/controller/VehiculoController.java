@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
-import com.ceiba.estacionamiento.dominio.repositorio.VehiculoRepository;
+import com.ceiba.estacionamiento.persistencia.service.VehiculoService;
 
 /**
  * clase que expone los servicios a consumir para el vehiculo
@@ -21,15 +21,15 @@ public class VehiculoController {
 	/**
 	 * Atributo que determina el repositorio de vehiculo 
 	 */
-	private VehiculoRepository vehiculoRepository;
+	private VehiculoService VehiculoService;
 
 	/**
 	 * Método contructor para el controller
 	 * 
 	 * @param vehiculoRepository, el repository para realizar las transacciones
 	 */
-	public VehiculoController(VehiculoRepository vehiculoRepository) {
-		this.vehiculoRepository = vehiculoRepository;
+	public VehiculoController(VehiculoService VehiculoService) {
+	   this.VehiculoService = VehiculoService;
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class VehiculoController {
 	 */
 	@RequestMapping("/obtenerVehiculos")
 	public List<Vehiculo> obtenerVehiculos() {
-		return vehiculoRepository.obtenerVehiculos();
+		return VehiculoService.obtenerVehiculos();
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class VehiculoController {
 	 */
 	@PostMapping("/crearVehiculo")
 	public void crearVehiculo(@RequestBody Vehiculo vehiculo) {
-		vehiculoRepository.agregar(vehiculo);
+		VehiculoService.agregar(vehiculo);
 	}
 
 }

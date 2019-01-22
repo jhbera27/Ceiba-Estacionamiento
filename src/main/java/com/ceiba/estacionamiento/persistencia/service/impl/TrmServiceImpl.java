@@ -1,26 +1,19 @@
-package com.ceiba.estacionamiento.persistencia.repositorio;
+package com.ceiba.estacionamiento.persistencia.service.impl;
 
 import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import com.ceiba.estacinamiento.dominio.Trm;
-import com.ceiba.estacionamiento.dominio.repositorio.TrmRepository;
 
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Service;
+import com.ceiba.estacinamiento.dominio.Trm;
+import com.ceiba.estacionamiento.persistencia.service.TrmService;
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TCRMServicesInterfaceProxy;
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TcrmResponse;
 
-
-/**
- * clase creada para obtener el trm de la superintendencia
- * 
- * @author jhon.bedoya
- *
- */
 @Service
 @Transactional
-public class TrmPersistenciaRepository implements TrmRepository {
+public class TrmServiceImpl implements TrmService {
 	/**
 	 * Web Service end point
 	 */
