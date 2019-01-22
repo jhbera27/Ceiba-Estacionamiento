@@ -21,15 +21,15 @@ public class VehiculoController {
 	/**
 	 * Atributo que determina el repositorio de vehiculo 
 	 */
-	private VehiculoService VehiculoService;
+	private VehiculoService vehiculoService;
 
 	/**
 	 * Método contructor para el controller
 	 * 
 	 * @param vehiculoRepository, el repository para realizar las transacciones
 	 */
-	public VehiculoController(VehiculoService VehiculoService) {
-	   this.VehiculoService = VehiculoService;
+	public VehiculoController(VehiculoService vehiculoService) {
+	   this.vehiculoService = vehiculoService;
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class VehiculoController {
 	 */
 	@RequestMapping("/obtenerVehiculos")
 	public List<Vehiculo> obtenerVehiculos() {
-		return VehiculoService.obtenerVehiculos();
+		return vehiculoService.obtenerVehiculos();
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class VehiculoController {
 	 */
 	@PostMapping("/crearVehiculo")
 	public void crearVehiculo(@RequestBody Vehiculo vehiculo) {
-		VehiculoService.agregar(vehiculo);
+		vehiculoService.agregar(vehiculo);
 	}
 
 }
