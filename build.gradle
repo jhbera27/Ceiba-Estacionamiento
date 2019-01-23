@@ -17,6 +17,9 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'war'
 apply plugin: 'jacoco'
 
+compileJava {
+options.encoding = "UTF-8"
+}  
 
 group = 'com.ceiba.estacionamiento'
 version = '0.0.1-SNAPSHOT'
