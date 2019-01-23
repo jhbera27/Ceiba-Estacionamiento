@@ -18,8 +18,8 @@ import com.ceiba.estacionamiento.estacionamiento.EstacionamientoApplication;
 import com.ceiba.estacionamiento.persistencia.service.VehiculoService;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = EstacionamientoApplication.class)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = EstacionamientoApplication.class)
 public class VehiculoControllerIntegrationUnit {
 	
 	private VehiculoController vehiculoController;

@@ -27,8 +27,8 @@ import com.ceiba.estacionamiento.persistencia.service.impl.VehiculoServiceImpl;
 import com.ceiba.estacionamiento.testdatabuilder.SalidaParqueaderoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = EstacionamientoApplication.class)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = EstacionamientoApplication.class)
 public class VehiculoServiceIntegationTest {
 
 	@Autowired

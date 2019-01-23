@@ -25,8 +25,8 @@ import com.ceiba.estacionamiento.testdatabuilder.CalcularPrecioTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.SalidaParqueaderoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = EstacionamientoApplication.class)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = EstacionamientoApplication.class)
 public class SalidaParqueaderoControllerIntegrationUnit {
 
 	@Autowired
