@@ -14,7 +14,7 @@ import com.ceiba.estacionamiento.persistencia.entity.VehiculoEntity;
  * @author jhon.bedoya
  *
  */
-public class SalidaParqueaderoBuilder {
+public final class SalidaParqueaderoBuilder {
 	/**
 	 * Método constructor del builder
 	 */

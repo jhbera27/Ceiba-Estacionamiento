@@ -104,6 +104,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		try {
 			vehiculo = vehiculoRepository.buscarVehiculoPorPlaca(placa);
 		} catch (NoResultException e) {
+			System.err.println(e.getMessage());
 			vehiculo = null;
 		}
 		return vehiculo != null ? VehiculoBuilder.convertirADominio(vehiculo) : null;

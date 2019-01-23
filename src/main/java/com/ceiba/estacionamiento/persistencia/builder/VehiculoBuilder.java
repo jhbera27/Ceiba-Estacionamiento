@@ -13,7 +13,7 @@ import com.ceiba.estacionamiento.persistencia.entity.VehiculoEntity;
  * @author jhon.bedoya
  *
  */
-public class VehiculoBuilder {
+public final class VehiculoBuilder {
 	/**
 	 * Método constructor del builder
 	 */
