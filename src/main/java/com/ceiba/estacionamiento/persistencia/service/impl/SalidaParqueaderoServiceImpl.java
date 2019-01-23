@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
@@ -57,7 +58,10 @@ public class SalidaParqueaderoServiceImpl implements SalidaParqueaderoService {
 	 */
 	public static final int VALOR_DIA_MOTO = 4000;
 
+	@Autowired
 	private final SalidaParqueaderoRepository salidaParqueaderoRepository;
+	
+	@Autowired
 	private final VehiculoRepository vehiculoRepository;
 
 	public SalidaParqueaderoServiceImpl(SalidaParqueaderoRepository salidaParqueaderoRepository,

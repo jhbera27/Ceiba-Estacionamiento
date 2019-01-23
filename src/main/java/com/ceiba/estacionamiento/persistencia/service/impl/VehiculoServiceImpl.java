@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
@@ -54,6 +55,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 	 */
 	public static final int NUMERO_MAXIMO_CARROS = 20;
 
+	@Autowired
 	private final VehiculoRepository vehiculoRepository;
 
 	public VehiculoServiceImpl(VehiculoRepository vehiculoRepository) {

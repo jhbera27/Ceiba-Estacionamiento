@@ -1,7 +1,6 @@
 package com.ceiba.estacionamiento.testdatabuilder;
 
 import com.ceiba.estacinamiento.dominio.CalcularPrecio;
-import com.ceiba.estacinamiento.dominio.Trm;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
 
 public class CalcularPrecioTestDataBuilder {
@@ -26,13 +25,26 @@ public class CalcularPrecioTestDataBuilder {
 	 * atributo que determina el valor del del vehiculo
 	 */
 	private int valorDiaVehiculo;
-	
+
 	public CalcularPrecioTestDataBuilder() {
 		this.vehiculoSalida = new VehiculoTestDataBuilder().build();
 		this.valorHoraVehiculo = VALOR_HORA_MOTO;
 		this.valorDiaVehiculo = VALOR_DIA_MOTO;
 	}
-	
+
+	/**
+	 * Método encargado de asignarle un nuevo valor al atributo vehiculoSalida del
+	 * objeto CalcularPrecioTestDataBuilder
+	 * 
+	 * @param vehiculo, el vehiculo que sale del parqueadero
+	 * @return CalcularPrecioTestDataBuilder
+	 * 
+	 */
+	public CalcularPrecioTestDataBuilder conVehiculoSalida(Vehiculo vehiculo) {
+		this.vehiculoSalida = vehiculo;
+		return this;
+	}
+
 	/**
 	 * Método encargado de construir el objeto CalcularPrecio del dominio
 	 * 
