@@ -28,7 +28,7 @@ import com.ceiba.estacionamiento.persistencia.service.VehiculoService;
 @Transactional
 public class VehiculoServiceImpl implements VehiculoService {
 	
-	Logger logger = LoggerFactory.getLogger(VehiculoServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VehiculoServiceImpl.class);
 
 	/**
 	 * atributo que contiene el mensaje de respuesta para los vehiculos no
@@ -108,7 +108,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		try {
 			vehiculo = vehiculoRepository.buscarVehiculoPorPlaca(placa);
 		} catch (NoResultException e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 			vehiculo = null;
 		}
 		return vehiculo != null ? VehiculoBuilder.convertirADominio(vehiculo) : null;
