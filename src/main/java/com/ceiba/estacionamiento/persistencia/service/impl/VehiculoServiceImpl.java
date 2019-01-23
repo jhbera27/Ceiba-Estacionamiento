@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
@@ -25,6 +27,8 @@ import com.ceiba.estacionamiento.persistencia.service.VehiculoService;
 @Service
 @Transactional
 public class VehiculoServiceImpl implements VehiculoService {
+	
+	Logger logger = LoggerFactory.getLogger(VehiculoServiceImpl.class);
 
 	/**
 	 * atributo que contiene el mensaje de respuesta para los vehiculos no
@@ -104,7 +108,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		try {
 			vehiculo = vehiculoRepository.buscarVehiculoPorPlaca(placa);
 		} catch (NoResultException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 			vehiculo = null;
 		}
 		return vehiculo != null ? VehiculoBuilder.convertirADominio(vehiculo) : null;
