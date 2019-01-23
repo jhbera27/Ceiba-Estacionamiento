@@ -44,9 +44,9 @@ public class SalidaParqueaderoControllerIntegrationUnit {
 		vehiculoController = new VehiculoController(vehiculoService);
 	}
 
-	@Test
-	@Transactional
-	@Rollback(true)
+//	@Test
+//	@Transactional
+//	@Rollback(true)
 	public void obtenerSalidasParqueaderoControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
 		vehiculoController.crearVehiculo(vehiculoTest);
@@ -58,9 +58,9 @@ public class SalidaParqueaderoControllerIntegrationUnit {
 		Assert.assertEquals(1, listaSalidaConsultado.size());
 	}
 
-	@Test
-	@Transactional
-	@Rollback(true)
+//	@Test
+//	@Transactional
+//	@Rollback(true)
 	public void registrarSalidaParqueaderoControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
 		vehiculoController.crearVehiculo(vehiculoTest);
@@ -75,9 +75,9 @@ public class SalidaParqueaderoControllerIntegrationUnit {
 		Assert.assertNotNull(listaSalidaConsultado.get(0).getPrecioPagado());
 	}
 
-	@Test
-	@Transactional
-	@Rollback(true)
+//	@Test
+//	@Transactional
+//	@Rollback(true)
 	public void calcularValorControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
 		vehiculoController.crearVehiculo(vehiculoTest);
