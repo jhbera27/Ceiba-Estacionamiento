@@ -27,14 +27,10 @@ public final class VehiculoBuilder {
 	 * @return Vehiculo, el vehiculo convertido a dominio
 	 */
 	public static Vehiculo convertirADominio(VehiculoEntity vehiculoEntity) {
-
 		Vehiculo vehiculo = null;
+		vehiculo = new Vehiculo(vehiculoEntity.getId(), vehiculoEntity.getPlaca(), vehiculoEntity.getFechaIngreso(),
+				vehiculoEntity.getTipo().name(), vehiculoEntity.getCilindraje(), vehiculoEntity.getEstaParqueado());
 
-		if (vehiculoEntity != null) {
-			vehiculo = new Vehiculo(vehiculoEntity.getId(), vehiculoEntity.getPlaca(), vehiculoEntity.getFechaIngreso(),
-					vehiculoEntity.getTipo().name(), vehiculoEntity.getCilindraje(), vehiculoEntity.getEstaParqueado());
-
-		}
 		return vehiculo;
 	}
 
@@ -45,9 +41,7 @@ public final class VehiculoBuilder {
 	 * @return VehiculoEntity. el vehiculo de dominio convertido a entity
 	 */
 	public static VehiculoEntity convertirAEntity(Vehiculo vehiculo) {
-
 		VehiculoEntity vehiculoEntity = new VehiculoEntity();
-
 		vehiculoEntity.setId(vehiculo.getId());
 		vehiculoEntity.setPlaca(vehiculo.getPlaca());
 		vehiculoEntity.setFechaIngreso(vehiculo.getFechaIngreso() != null ? vehiculo.getFechaIngreso() : new Date());

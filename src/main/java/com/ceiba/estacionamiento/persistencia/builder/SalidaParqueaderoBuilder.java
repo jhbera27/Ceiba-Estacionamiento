@@ -30,12 +30,9 @@ public final class SalidaParqueaderoBuilder {
 	 */
 	public static SalidaParqueadero convertirADominio(SalidaParqueaderoEntity salidaParqueaderoEntity) {
 		SalidaParqueadero salidaParqueadero = null;
-
-		if (salidaParqueaderoEntity != null) {
-			Vehiculo vehiculo = VehiculoBuilder.convertirADominio(salidaParqueaderoEntity.getVehiculoSalida());
-			salidaParqueadero = new SalidaParqueadero(salidaParqueaderoEntity.getId(), vehiculo,
-					salidaParqueaderoEntity.getPrecioPagado(), salidaParqueaderoEntity.getFechaSalida());
-		}
+		Vehiculo vehiculo = VehiculoBuilder.convertirADominio(salidaParqueaderoEntity.getVehiculoSalida());
+		salidaParqueadero = new SalidaParqueadero(salidaParqueaderoEntity.getId(), vehiculo,
+				salidaParqueaderoEntity.getPrecioPagado(), salidaParqueaderoEntity.getFechaSalida());
 
 		return salidaParqueadero;
 	}
@@ -49,7 +46,6 @@ public final class SalidaParqueaderoBuilder {
 	 */
 	public static SalidaParqueaderoEntity convertirAEntity(SalidaParqueadero salidaParqueadero) {
 		SalidaParqueaderoEntity salidaParqueaderoEntity = new SalidaParqueaderoEntity();
-
 		VehiculoEntity vehiculoEntity = VehiculoBuilder.convertirAEntity(salidaParqueadero.getVehiculoSalida());
 		salidaParqueaderoEntity.setId(salidaParqueadero.getId());
 		salidaParqueaderoEntity.setPrecioPagado(salidaParqueadero.getPrecioPagado());
