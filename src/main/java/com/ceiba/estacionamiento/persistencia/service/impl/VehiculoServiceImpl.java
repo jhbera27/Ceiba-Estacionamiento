@@ -9,11 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +25,6 @@ import com.ceiba.estacionamiento.persistencia.service.VehiculoService;
 @Service
 @Transactional
 public class VehiculoServiceImpl implements VehiculoService {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(VehiculoServiceImpl.class);
 
 	/**
 	 * atributo que contiene el mensaje de respuesta para los vehiculos no
@@ -106,12 +101,8 @@ public class VehiculoServiceImpl implements VehiculoService {
 	 */
 	@Override
 	public Vehiculo buscarVehiculoPorPlaca(String placa) {
-		VehiculoEntity vehiculo;
-		try {
-			vehiculo = vehiculoRepository.buscarVehiculoPorPlaca(placa);
-		} catch (NoResultException e) {
-			vehiculo = null;
-		}
+		VehiculoEntity vehiculo = null;
+		vehiculo = vehiculoRepository.buscarVehiculoPorPlaca(placa);
 		return vehiculo != null ? VehiculoBuilder.convertirADominio(vehiculo) : null;
 	}
 
