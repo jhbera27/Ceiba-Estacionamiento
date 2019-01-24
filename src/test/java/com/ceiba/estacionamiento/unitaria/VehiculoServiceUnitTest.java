@@ -25,32 +25,19 @@ import com.ceiba.estacionamiento.persistencia.repositorio.VehiculoRepository;
 import com.ceiba.estacionamiento.persistencia.service.impl.VehiculoServiceImpl;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
-/**
- * clase que permite realizar las pruebas unitarias para la clase
- * VehiculoPersistenciaRepository
- * 
- * @author jhon.bedoya
- *
- */
+
 public class VehiculoServiceUnitTest {
 
 	private VehiculoRepository vehiculoRepository;
 	private VehiculoServiceImpl vehiculoService;
 
-	/**
-	 * método encargado de inicializar el contexto de pertistencia para las pruebas
-	 * unitarias
-	 */
+
 	@Before
 	public void setUp() {
 		vehiculoRepository = Mockito.mock(VehiculoRepository.class);
 		vehiculoService = new VehiculoServiceImpl(vehiculoRepository);
 	}
 
-	/**
-	 * Método encargado de verificar que se agrege correctamente un vehiculo
-	 *
-	 */
 	@Test
 	public void agregarVehiculoExitoTest() {
 		// arrange
@@ -66,11 +53,6 @@ public class VehiculoServiceUnitTest {
 		Assert.assertNull(vehiculoServiceSpy.buscarVehiculoPorPlaca(vehiculo.getPlaca()));
 	}
 
-	/**
-	 * Método encargado de verificar que se genere un error de cupo al intentar
-	 * ingresar una vehiculo tipo moto al parqueadero
-	 *
-	 */
 	@Test
 	public void agregarMotoSinCupoTest() {
 		// arrange
@@ -87,11 +69,7 @@ public class VehiculoServiceUnitTest {
 		}
 	}
 
-	/**
-	 * Método encargado de verificar que se genere un error de cupo al intentar
-	 * ingresar una vehiculo tipo carro al parqueadero
-	 * 
-	 */
+
 	@Test
 	public void agregarCarroSinCupoTest() {
 		// arrange
@@ -109,13 +87,6 @@ public class VehiculoServiceUnitTest {
 		}
 	}
 
-	/**
-	 * Método encargado de verificar que se genere un error al intentar ingresar un
-	 * vehiculo con placa no autorizada
-	 * 
-	 * 
-	 * @throws ParseException, excepcion generada al intentar convertir una fecha
-	 */
 	@Test
 	public void verificarPlacaNoPermitidaTest() throws ParseException {
 		// arrange
@@ -134,14 +105,6 @@ public class VehiculoServiceUnitTest {
 		}
 	}
 
-	/**
-	 * Método encargado de verificar que se actualice un vehiculo que se encontraba
-	 * creado pero en estado no parqueado con la nueva informacion de entrada al
-	 * parqueadero
-	 * 
-	 * 
-	 * @throws ParseException, excepcion generada al intentar convertir una fecha
-	 */
 	@Test
 	public void actualizarVehiculoTest() throws ParseException {
 		// arrange
@@ -159,11 +122,7 @@ public class VehiculoServiceUnitTest {
 		vehiculoServiceSpy.agregar(vehiculoTest);
 	}
 
-	/**
-	 * Método encargado de verificar que se genere se consulte correctamente un
-	 * vehiculo dado su placa
-	 *
-	 */
+
 	@Test
 	public void buscarVehiculoPorPlacaExitoTest() {
 		// arrange
@@ -176,12 +135,6 @@ public class VehiculoServiceUnitTest {
 		Assert.assertNotNull(vehiculoConsultado);
 	}
 
-	/**
-	 * Método encargado de verificar que se consulte todos los vehiculos en el
-	 * parqueadero
-	 * 
-	 *
-	 */
 	@Test
 	public void buscarVehiculoPorPlacaNullTest() {
 		// arrange
@@ -192,12 +145,6 @@ public class VehiculoServiceUnitTest {
 		Assert.assertNull(vehiculoConsultado);
 	}
 
-	/**
-	 * Método encargado de verificar que se genere se consulte correctamente un
-	 * vehiculo dado su placa
-	 * 
-	 *
-	 */
 	@Test
 	public void obtenerVehiculosTest() {
 		// arrange
@@ -210,12 +157,7 @@ public class VehiculoServiceUnitTest {
 		Assert.assertEquals(listaVehiculosEntity.size(), listaVehiculos.size());
 	}
 
-	/**
-	 * método en cargado de crear una lista de vehiculosEntity para la prueba
-	 * ObtenerVehiculosTest
-	 * 
-	 * @return lista de vehiculos tipo entity
-	 */
+
 	private List<VehiculoEntity> datosObtenerVehiculosTest() {
 		List<VehiculoEntity> listaVehiculosEntity = new ArrayList<>();
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
@@ -226,12 +168,6 @@ public class VehiculoServiceUnitTest {
 
 	}
 
-	/**
-	 * Método encargado de crear una lista de vehiculos tipo moto para verificar la
-	 * prueba unitaria agregarMotoSinCupoTest()
-	 * 
-	 * @return, lista de vehiculos tipo moto
-	 */
 	private List<Vehiculo> datosAgregarMotoSinCupoTest() {
 		List<Vehiculo> listaVehiculos = new ArrayList<>();
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
@@ -258,12 +194,6 @@ public class VehiculoServiceUnitTest {
 		return listaVehiculos;
 	}
 
-	/**
-	 * Método encargado de persistir un conjunto de vehiculos tipo carro para
-	 * verificar la prueba unitaria agregarCarroSinCupoTest()
-	 * 
-	 * @return, lista de vehiculos tipo carro
-	 */
 	private List<Vehiculo> datosAgregarCarroSinCupoTest() {
 		List<Vehiculo> listaVehiculos = new ArrayList<>();
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();

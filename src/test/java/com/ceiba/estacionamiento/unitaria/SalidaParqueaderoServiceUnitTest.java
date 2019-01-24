@@ -42,10 +42,7 @@ public class SalidaParqueaderoServiceUnitTest {
 	private SalidaParqueaderoRepository salidaParqueaderoRepository;
 	private VehiculoRepository vehiculoRepository;
 
-	/**
-	 * método encargado de inicializar el contexto de pertistencia para las pruebas
-	 * unitarias
-	 */
+
 	@Before
 	public void setUp() {
 		salidaParqueaderoRepository = Mockito.mock(SalidaParqueaderoRepository.class);
@@ -53,11 +50,7 @@ public class SalidaParqueaderoServiceUnitTest {
 		salidaParqueaderoService = new SalidaParqueaderoServiceImpl(salidaParqueaderoRepository, vehiculoRepository);
 	}
 
-	/**
-	 * Método encargado de verificar que se almacene correctamente una salida de un
-	 * vehiculo tipo moto del parqueadero
-	 * 
-	 */
+
 	@Test
 	public void agregarSalidaParqueaderoMotoExitoTest() {
 		// arrange
@@ -83,10 +76,7 @@ public class SalidaParqueaderoServiceUnitTest {
 		Assert.assertEquals(listaSalidaParqueaderoEntity.size(), listaSalidaParqueadero.size());
 	}
 
-	/**
-	 * Método encargado de verificar que se almacene correctamente una salida de un
-	 * vehiculo tipo carro del parqueadero
-	 */
+
 	@Test
 	public void agregarSalidaParqueaderoCarroExitoTest() {
 		// arrange
@@ -113,12 +103,7 @@ public class SalidaParqueaderoServiceUnitTest {
 
 	}
 
-	/**
-	 * Método encargado de verificar que se obtengan las salidad de vehiculos del
-	 * parqueadero
-	 * 
-	 * @throws ParseException, excepcion generada al intentar convertir una fecha
-	 */
+
 	@Test
 	public void obtenerSalidaVehiculosParqueaderoTest() throws ParseException {
 		// arrange
@@ -135,12 +120,7 @@ public class SalidaParqueaderoServiceUnitTest {
 		Assert.assertEquals(listaSalidaParqueaderoEntity.size(), listaSalidaParqueadero.size());
 	}
 
-	/**
-	 * Método encargado de verificar el metodo calcularPrecioAPagar y que el precio
-	 * sea cobrado por horas
-	 * 
-	 * @throws ParseException, excepcion generada al intentar convertir una fecha
-	 */
+
 	@Test
 	public void calcularPrecioAPagarPorHoras() throws ParseException {
 		// arrange
@@ -163,12 +143,7 @@ public class SalidaParqueaderoServiceUnitTest {
 		Assert.assertEquals(new BigDecimal(4000), precioAPagado);
 	}
 
-	/**
-	 * Método encargado de verificar el metodo calcularPrecioAPagar y que el precio
-	 * sea cobrado por horas
-	 * 
-	 * @throws ParseException, excepcion generada al intentar convertir una fecha
-	 */
+
 	@Test
 	public void calcularPrecioAPagarPorDia() throws ParseException {
 		// arrange
@@ -188,12 +163,6 @@ public class SalidaParqueaderoServiceUnitTest {
 		Assert.assertEquals(new BigDecimal(8000), precioAPagado);
 	}
 
-	/**
-	 * Método encargado de verificar el metodo calcularPrecioAPagar y que el precio
-	 * sea cobrado por por dias y horas
-	 * 
-	 * @throws ParseException, excepcion generada al intentar convertir una fecha
-	 */
 	@Test
 	public void calcularPrecioAPagarPorMasDeUnDia() throws ParseException {
 		// arrange
@@ -214,12 +183,6 @@ public class SalidaParqueaderoServiceUnitTest {
 		Assert.assertEquals(new BigDecimal(10000), precioAPagado);
 	}
 
-	/**
-	 * Método encargado de verificar el metodo calcularPrecioAPagar y que el precio
-	 * sea cobrado por horas
-	 * 
-	 * @throws ParseException, excepcion generada al intentar convertir una fecha
-	 */
 	@Test
 	public void calcularPrecioAPagarPorMasDeUnDiaConHoras() throws ParseException {
 		// arrange

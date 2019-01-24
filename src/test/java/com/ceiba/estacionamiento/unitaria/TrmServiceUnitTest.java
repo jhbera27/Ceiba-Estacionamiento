@@ -14,10 +14,6 @@ public class TrmServiceUnitTest {
 
 	private TrmServiceImpl trmService;
 
-	/**
-	 * método encargado de inicializar el contexto de pertistencia para las pruebas
-	 * unitarias
-	 */
 	@Before
 	public void setUp() {
 		trmService = new TrmServiceImpl();
