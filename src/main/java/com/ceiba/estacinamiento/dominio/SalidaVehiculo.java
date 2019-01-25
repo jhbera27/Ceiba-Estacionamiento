@@ -10,7 +10,7 @@ import java.util.Date;
  * @author jhon.bedoya
  *
  */
-public class SalidaParqueadero implements Serializable {
+public class SalidaVehiculo implements Serializable {
 	/**
 	 * atributo para la serializacion
 	 */
@@ -35,7 +35,7 @@ public class SalidaParqueadero implements Serializable {
 	/**
 	 * constructor para la serializacion
 	 */
-	public SalidaParqueadero() {
+	public SalidaVehiculo() {
 		
 	}
 
@@ -47,7 +47,7 @@ public class SalidaParqueadero implements Serializable {
 	 * @param precioPagado, el precio pagado por el vehiculo
 	 * @param fechaSalida, la fecha de salida del vehiculo del parqueadero
 	 */
-	public SalidaParqueadero(Long id, Vehiculo vehiculoSalida, BigDecimal precioPagado, Date fechaSalida) {
+	public SalidaVehiculo(Long id, Vehiculo vehiculoSalida, BigDecimal precioPagado, Date fechaSalida) {
 		this.id = id;
 		this.vehiculoSalida = vehiculoSalida;
 		this.precioPagado = precioPagado;

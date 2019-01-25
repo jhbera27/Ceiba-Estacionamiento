@@ -16,15 +16,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
-import com.ceiba.estacinamiento.dominio.SalidaParqueadero;
+import com.ceiba.estacinamiento.dominio.SalidaVehiculo;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
 import com.ceiba.estacionamiento.dominio.excepcion.VehiculoException;
 import com.ceiba.estacionamiento.estacionamiento.EstacionamientoApplication;
-import com.ceiba.estacionamiento.persistencia.repositorio.SalidaParqueaderoRepository;
+import com.ceiba.estacionamiento.persistencia.repositorio.SalidaVehiculoRepository;
 import com.ceiba.estacionamiento.persistencia.repositorio.VehiculoRepository;
-import com.ceiba.estacionamiento.persistencia.service.impl.SalidaParqueaderoServiceImpl;
+import com.ceiba.estacionamiento.persistencia.service.impl.SalidaVehiculoServiceImpl;
 import com.ceiba.estacionamiento.persistencia.service.impl.VehiculoServiceImpl;
-import com.ceiba.estacionamiento.testdatabuilder.SalidaParqueaderoTestDataBuilder;
+import com.ceiba.estacionamiento.testdatabuilder.SalidaVehiculoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
 //@RunWith(SpringRunner.class)
@@ -37,9 +37,9 @@ public class VehiculoServiceIntegationTest {
 	private VehiculoServiceImpl vehiculoService;
 
 	@Autowired
-	private SalidaParqueaderoRepository salidaParqueaderoRepository;
+	private SalidaVehiculoRepository salidaParqueaderoRepository;
 
-	private SalidaParqueaderoServiceImpl SalidaParqueaderoService;
+	private SalidaVehiculoServiceImpl SalidaParqueaderoService;
 
 	/**
 	 * método encargado de inicializar el contexto de pertistencia para las pruebas
@@ -48,7 +48,7 @@ public class VehiculoServiceIntegationTest {
 	@Before
 	public void setUp() {
 		vehiculoService = new VehiculoServiceImpl(vehiculoRepository);
-		SalidaParqueaderoService = new SalidaParqueaderoServiceImpl(salidaParqueaderoRepository, vehiculoRepository);
+		SalidaParqueaderoService = new SalidaVehiculoServiceImpl(salidaParqueaderoRepository, vehiculoRepository);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class VehiculoServiceIntegationTest {
 		// arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
 		// act
-		vehiculoService.agregar(vehiculo);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo);
 		// assert
 		Assert.assertNotNull(vehiculoService.buscarVehiculoPorPlaca(vehiculo.getPlaca()));
 	}
@@ -81,7 +81,7 @@ public class VehiculoServiceIntegationTest {
 		datosAgregarMotoSinCupoTest();
 		try {
 			// act
-			vehiculoService.agregar(vehiculoTest);
+			vehiculoService.agregarVehiculoParqueadero(vehiculoTest);
 		} catch (VehiculoException e) {
 			// assert
 			Assert.assertEquals(VehiculoServiceImpl.SIN_CUPO, e.getMessage());
@@ -103,7 +103,7 @@ public class VehiculoServiceIntegationTest {
 				.build();
 		try {
 			// act
-			vehiculoService.agregar(vehiculoTest);
+			vehiculoService.agregarVehiculoParqueadero(vehiculoTest);
 		} catch (VehiculoException e) {
 			// assert
 			Assert.assertEquals(VehiculoServiceImpl.SIN_CUPO, e.getMessage());
@@ -128,7 +128,7 @@ public class VehiculoServiceIntegationTest {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("AII21k").conFechaIngreso(fecha).build();
 		try {
 			// act
-			vehiculoService.agregar(vehiculoTest);
+			vehiculoService.agregarVehiculoParqueadero(vehiculoTest);
 		} catch (VehiculoException e) {
 			// assert
 			Assert.assertEquals(VehiculoServiceImpl.VEHICULO_NO_AUTORIZADO, e.getMessage());
@@ -152,7 +152,7 @@ public class VehiculoServiceIntegationTest {
 				.build();
 		datosActualizarVehiculoTest();
 		// act
-		vehiculoService.agregar(vehiculoTest);
+		vehiculoService.agregarVehiculoParqueadero(vehiculoTest);
 		Vehiculo vehiculoEncontrado = vehiculoService.buscarVehiculoPorPlaca(vehiculoTest.getPlaca());
 		// assert
 		Assert.assertNotNull(vehiculoEncontrado);
@@ -171,7 +171,7 @@ public class VehiculoServiceIntegationTest {
 	public void buscarVehiculoPorPlacaExitoTest() {
 		// arrange
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("LTT26H").build();
-		vehiculoService.agregar(vehiculoTest);
+		vehiculoService.agregarVehiculoParqueadero(vehiculoTest);
 		// act
 		Vehiculo vehiculoConsultado = vehiculoService.buscarVehiculoPorPlaca(vehiculoTest.getPlaca());
 		// assert
@@ -190,7 +190,7 @@ public class VehiculoServiceIntegationTest {
 	public void buscarVehiculoPorPlacaNullTest() {
 		// arrange
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("LTT26H").build();
-		vehiculoService.agregar(vehiculoTest);
+		vehiculoService.agregarVehiculoParqueadero(vehiculoTest);
 		// act
 		Vehiculo vehiculoConsultado = vehiculoService.buscarVehiculoPorPlaca("LZT50H");
 		// assert
@@ -219,11 +219,11 @@ public class VehiculoServiceIntegationTest {
 	private void datosActualizarVehiculoTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("ZII21k").conEstaParqueado(Boolean.FALSE)
 				.build();
-		vehiculoService.agregar(vehiculoTest);
+		vehiculoService.agregarVehiculoParqueadero(vehiculoTest);
 		Vehiculo vehiculoPersistido = vehiculoService.buscarVehiculoPorPlaca(vehiculoTest.getPlaca());
-		SalidaParqueadero salidaParqueadero = new SalidaParqueaderoTestDataBuilder()
+		SalidaVehiculo salidaParqueadero = new SalidaVehiculoTestDataBuilder()
 				.conVehiculoSalida(vehiculoPersistido).build();
-		SalidaParqueaderoService.agregar(salidaParqueadero);
+		SalidaParqueaderoService.registrarSalidaVehiculo(salidaParqueadero);
 	}
 
 	/**
@@ -234,9 +234,9 @@ public class VehiculoServiceIntegationTest {
 	 */
 	private void datosObtenerVehiculosTest() {
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca("LAD26H").build();
-		vehiculoService.agregar(vehiculo);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo);
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("LQW26H").build();
-		vehiculoService.agregar(vehiculoTest);
+		vehiculoService.agregarVehiculoParqueadero(vehiculoTest);
 	}
 
 	/**
@@ -247,25 +247,25 @@ public class VehiculoServiceIntegationTest {
 	 */
 	private void datosAgregarMotoSinCupoTest() {
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
-		vehiculoService.agregar(vehiculo);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo);
 		Vehiculo vehiculo1 = new VehiculoTestDataBuilder().conPlaca("PTT29G").build();
-		vehiculoService.agregar(vehiculo1);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo1);
 		Vehiculo vehiculo2 = new VehiculoTestDataBuilder().conPlaca("PTT27G").build();
-		vehiculoService.agregar(vehiculo2);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo2);
 		Vehiculo vehiculo3 = new VehiculoTestDataBuilder().conPlaca("PTT29W").build();
-		vehiculoService.agregar(vehiculo3);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo3);
 		Vehiculo vehiculo4 = new VehiculoTestDataBuilder().conPlaca("YTT29G").build();
-		vehiculoService.agregar(vehiculo4);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo4);
 		Vehiculo vehiculo5 = new VehiculoTestDataBuilder().conPlaca("GTT29G").build();
-		vehiculoService.agregar(vehiculo5);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo5);
 		Vehiculo vehiculo6 = new VehiculoTestDataBuilder().conPlaca("EBT29G").build();
-		vehiculoService.agregar(vehiculo6);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo6);
 		Vehiculo vehiculo7 = new VehiculoTestDataBuilder().conPlaca("PTT29Y").build();
-		vehiculoService.agregar(vehiculo7);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo7);
 		Vehiculo vehiculo8 = new VehiculoTestDataBuilder().conPlaca("PTT28G").build();
-		vehiculoService.agregar(vehiculo8);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo8);
 		Vehiculo vehiculo9 = new VehiculoTestDataBuilder().conPlaca("PTT30G").build();
-		vehiculoService.agregar(vehiculo9);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo9);
 	}
 
 	/**
@@ -276,67 +276,67 @@ public class VehiculoServiceIntegationTest {
 	 */
 	private void datosAgregarCarroSinCupoTest() {
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
-		vehiculoService.agregar(vehiculo);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo);
 		Vehiculo vehiculo1 = new VehiculoTestDataBuilder().conPlaca("PTT29G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo1);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo1);
 		Vehiculo vehiculo2 = new VehiculoTestDataBuilder().conPlaca("PTT27G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo2);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo2);
 		Vehiculo vehiculo3 = new VehiculoTestDataBuilder().conPlaca("PTT45Z").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo3);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo3);
 		Vehiculo vehiculo4 = new VehiculoTestDataBuilder().conPlaca("YTT46G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo4);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo4);
 		Vehiculo vehiculo5 = new VehiculoTestDataBuilder().conPlaca("GTT47G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo5);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo5);
 		Vehiculo vehiculo6 = new VehiculoTestDataBuilder().conPlaca("EBT48G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo6);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo6);
 		Vehiculo vehiculo7 = new VehiculoTestDataBuilder().conPlaca("PTT49Y").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo7);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo7);
 		Vehiculo vehiculo8 = new VehiculoTestDataBuilder().conPlaca("PTT50G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo8);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo8);
 		Vehiculo vehiculo9 = new VehiculoTestDataBuilder().conPlaca("PTT51G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo9);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo9);
 		Vehiculo vehiculo10 = new VehiculoTestDataBuilder().conPlaca("PTB52G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo10);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo10);
 		Vehiculo vehiculo11 = new VehiculoTestDataBuilder().conPlaca("PCC53G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo11);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo11);
 		Vehiculo vehiculo12 = new VehiculoTestDataBuilder().conPlaca("ZXT54G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo12);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo12);
 		Vehiculo vehiculo13 = new VehiculoTestDataBuilder().conPlaca("MTT55G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo13);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo13);
 		Vehiculo vehiculo14 = new VehiculoTestDataBuilder().conPlaca("GTT56G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo14);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo14);
 		Vehiculo vehiculo15 = new VehiculoTestDataBuilder().conPlaca("EWT57G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo15);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo15);
 		Vehiculo vehiculo16 = new VehiculoTestDataBuilder().conPlaca("PTT58Y").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo16);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo16);
 		Vehiculo vehiculo17 = new VehiculoTestDataBuilder().conPlaca("QQQ59G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo17);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo17);
 		Vehiculo vehiculo18 = new VehiculoTestDataBuilder().conPlaca("PPP60G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo18);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo18);
 		Vehiculo vehiculo19 = new VehiculoTestDataBuilder().conPlaca("PII61G").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo19);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo19);
 		Vehiculo vehiculo20 = new VehiculoTestDataBuilder().conPlaca("PII89X").conTipo(TipoVehiculoEnum.CARRO.name())
 				.build();
-		vehiculoService.agregar(vehiculo20);
+		vehiculoService.agregarVehiculoParqueadero(vehiculo20);
 	}
 
 }

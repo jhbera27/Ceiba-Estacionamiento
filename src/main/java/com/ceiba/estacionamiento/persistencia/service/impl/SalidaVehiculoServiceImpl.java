@@ -12,18 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
-import com.ceiba.estacinamiento.dominio.SalidaParqueadero;
+import com.ceiba.estacinamiento.dominio.SalidaVehiculo;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
-import com.ceiba.estacionamiento.persistencia.builder.SalidaParqueaderoBuilder;
+import com.ceiba.estacionamiento.persistencia.builder.SalidaVehiculoBuilder;
 import com.ceiba.estacionamiento.persistencia.builder.VehiculoBuilder;
-import com.ceiba.estacionamiento.persistencia.entity.SalidaParqueaderoEntity;
-import com.ceiba.estacionamiento.persistencia.repositorio.SalidaParqueaderoRepository;
+import com.ceiba.estacionamiento.persistencia.entity.SalidaVehiculoEntity;
+import com.ceiba.estacionamiento.persistencia.repositorio.SalidaVehiculoRepository;
 import com.ceiba.estacionamiento.persistencia.repositorio.VehiculoRepository;
-import com.ceiba.estacionamiento.persistencia.service.SalidaParqueaderoService;
+import com.ceiba.estacionamiento.persistencia.service.SalidaVehiculoService;
 
 @Service
 @Transactional
-public class SalidaParqueaderoServiceImpl implements SalidaParqueaderoService {
+public class SalidaVehiculoServiceImpl implements SalidaVehiculoService {
 	/**
 	 * atributo que representa los milisegundos en una hora
 	 */
@@ -59,19 +59,19 @@ public class SalidaParqueaderoServiceImpl implements SalidaParqueaderoService {
 	public static final int VALOR_DIA_MOTO = 4000;
 
 	@Autowired
-	private final SalidaParqueaderoRepository salidaParqueaderoRepository;
+	private final SalidaVehiculoRepository salidaParqueaderoRepository;
 	
 	@Autowired
 	private final VehiculoRepository vehiculoRepository;
 
-	public SalidaParqueaderoServiceImpl(SalidaParqueaderoRepository salidaParqueaderoRepository,
+	public SalidaVehiculoServiceImpl(SalidaVehiculoRepository salidaParqueaderoRepository,
 			VehiculoRepository vehiculoRepository) {
 		this.salidaParqueaderoRepository = salidaParqueaderoRepository;
 		this.vehiculoRepository = vehiculoRepository;
 	}
 
 	@Override
-	public void agregar(SalidaParqueadero salidaParqueadero) {
+	public void registrarSalidaVehiculo(SalidaVehiculo salidaParqueadero) {
 		Vehiculo vehiculoSalida = salidaParqueadero.getVehiculoSalida();
 		vehiculoSalida.setEstaParqueado(Boolean.FALSE);
 		if (TipoVehiculoEnum.MOTO.name().equals(vehiculoSalida.getTipo())) {
@@ -79,30 +79,21 @@ public class SalidaParqueaderoServiceImpl implements SalidaParqueaderoService {
 		} else {
 			salidaParqueadero.setPrecioPagado(calcularPrecioAPagar(vehiculoSalida, VALOR_HORA_CARRO, VALOR_DIA_CARRO));
 		}
-		salidaParqueaderoRepository.save(SalidaParqueaderoBuilder.convertirAEntity(salidaParqueadero));
+		salidaParqueaderoRepository.save(SalidaVehiculoBuilder.convertirAEntity(salidaParqueadero));
 		vehiculoRepository.save(VehiculoBuilder.convertirAEntity(vehiculoSalida));
 	}
 
 	@Override
-	public List<SalidaParqueadero> obtenerSalidaVehiculosParqueadero() {
-		List<SalidaParqueaderoEntity> listaSalidaVehiculoParqueaderoEntity = salidaParqueaderoRepository
+	public List<SalidaVehiculo> obtenerHistorialVehiculos() {
+		List<SalidaVehiculoEntity> listaSalidaVehiculoParqueaderoEntity = salidaParqueaderoRepository
 				.obtenerSalidaVehiculosParqueadero();
-		List<SalidaParqueadero> listaSalidaParqueadero = new ArrayList<>();
-		for (SalidaParqueaderoEntity salidaParqueaderoEntity : listaSalidaVehiculoParqueaderoEntity) {
-			listaSalidaParqueadero.add(SalidaParqueaderoBuilder.convertirADominio(salidaParqueaderoEntity));
+		List<SalidaVehiculo> listaSalidaParqueadero = new ArrayList<>();
+		for (SalidaVehiculoEntity salidaParqueaderoEntity : listaSalidaVehiculoParqueaderoEntity) {
+			listaSalidaParqueadero.add(SalidaVehiculoBuilder.convertirADominio(salidaParqueaderoEntity));
 		}
 		return listaSalidaParqueadero;
 	}
 	
-	/**
-	 * Método encargado de calcular el precio total a pagar teniendo en cuenta las
-	 * reglas de negocio de tipo de vehiculo, numero de horas ,valor hora y dia
-	 * 
-	 * @param vehiculoSalida, el vehiculo que va a salir del parqueadero
-	 * @param valorHoraVehiculo, valor de una hora en el parqueadero
-	 * @param valorDiaVehiculo, valor de un dia en el parqueadero
-	 * @return el precio total a pagar para el vehiculo
-	 */
 	@Override
 	public BigDecimal calcularPrecioAPagar(Vehiculo vehiculoSalida, int valorHoraVehiculo, int valorDiaVehiculo) {
 		Long horasDiferencia = diferenciaHoras(vehiculoSalida.getFechaIngreso());
@@ -131,25 +122,13 @@ public class SalidaParqueaderoServiceImpl implements SalidaParqueaderoService {
 		return pago;
 	}
 	
-	/**
-	 * Método encargado de calcular el precio de las horas en el parqueadero
-	 * 
-	 * @param horas, el numero de horas que estuvo el vehiculo en el paruqeadero
-	 * @param precio, el precio por cado hora
-	 * @return el precio a pagar por las horas
-	 */
+
 	public BigDecimal calcularPrecioPorHoras(Long horas, int precio) {
 		BigDecimal horasBigdecimal = new BigDecimal(horas);
 		return horasBigdecimal.multiply(new BigDecimal(precio));
 	}
 
-	/**
-	 * Método encargado de calcular la diferencia de horas entre la fecha ingreso y
-	 * la fecha de salida
-	 * 
-	 * @param fecha, la fecha de ingreso al parqueadero
-	 * @return diferencia en horas entre la fecha de ingreso y salida
-	 */
+
 	public Long diferenciaHoras(Date fecha) {
 		Long diferenciaHoras = new Date().getTime() - fecha.getTime();
 		if (HORA_EN_MILISEGUNDOS > diferenciaHoras) {

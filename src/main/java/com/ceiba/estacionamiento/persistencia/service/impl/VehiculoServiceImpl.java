@@ -57,11 +57,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		this.vehiculoRepository = vehiculoRepository;
 	}
 
-	/**
-	 * Método encargado consultar todos los vehiculos en el parqueadero
-	 * 
-	 * @return la lista de vehiculos que se encuentran en el parqueadero
-	 */
+
 	@Override
 	public List<Vehiculo> obtenerVehiculos() {
 		List<VehiculoEntity> listaVehiculosEntity = vehiculoRepository.obtenerVehiculos();
@@ -72,17 +68,10 @@ public class VehiculoServiceImpl implements VehiculoService {
 		return listaVehiculos;
 	}
 
-	/**
-	 * Método encargado de guardar un vehiculo en el parqueadero, primero se
-	 * verifica si el vehiculo puede registrarse,si es posible se busca si ya existe
-	 * un vehiculo con esa placa, si existe se actualiza en caso contrario se crea
-	 * 
-	 * @param vehiculo, el vehiculo a guardar
-	 */
 	@Override
-	public void agregar(Vehiculo vehiculo) {
-		validarCreacionVehiculo(vehiculo);
-		verificarPlaca(vehiculo.getPlaca());
+	public void agregarVehiculoParqueadero(Vehiculo vehiculo) {
+		validarCupoParqueadero(vehiculo);
+		verificarPlacaPermitida(vehiculo.getPlaca());
 		Vehiculo vehiculoEncontrado = buscarVehiculoPorPlaca(vehiculo.getPlaca());
 		if (vehiculoEncontrado != null) {
 			vehiculoEncontrado.setEstaParqueado(Boolean.TRUE);
@@ -93,12 +82,6 @@ public class VehiculoServiceImpl implements VehiculoService {
 		}
 	}
 
-	/**
-	 * Método encargado de consultar un vehiculo por su placa
-	 * 
-	 * @param placa, la placa del vehiculo a registrar
-	 * @return Vehiculo, el vehiculo asociado a la placa
-	 */
 	@Override
 	public Vehiculo buscarVehiculoPorPlaca(String placa) {
 		VehiculoEntity vehiculo = null;
@@ -106,13 +89,8 @@ public class VehiculoServiceImpl implements VehiculoService {
 		return vehiculo != null ? VehiculoBuilder.convertirADominio(vehiculo) : null;
 	}
 
-	/**
-	 * Método encargado de verificar si se puede registrar el vehiculo dado la regla
-	 * de negocio que solo se permiten 20 carro y 10 motos simultaneamente
-	 * 
-	 * @param nuevoVehiculo, el vehiculo a crear
-	 */
-	public void validarCreacionVehiculo(Vehiculo nuevoVehiculo) {
+
+	public void validarCupoParqueadero(Vehiculo nuevoVehiculo) {
 		List<Vehiculo> listaVehiculos = obtenerVehiculos();
 		List<Vehiculo> listaVehiculosPorTipo = listaVehiculos.stream()
 				.filter(vehiculo -> vehiculo.getTipo().equals(nuevoVehiculo.getTipo())).collect(Collectors.toList());
@@ -127,14 +105,7 @@ public class VehiculoServiceImpl implements VehiculoService {
 		}
 	}
 
-	/**
-	 * Método encargado de verificar si la placa del vehiculo a ingresar empieza por
-	 * la tecla A, si es asi verifica el dia de la semana
-	 * 
-	 * @param placa, la placa del vehiculo a registrar
-	 * @return true, si puede ingresar el vehiculo, false en caso contrario
-	 */
-	public void verificarPlaca(String placa) {
+	public void verificarPlacaPermitida(String placa) {
 		String placaM = placa.toUpperCase();
 		if (!placa.isEmpty() && LETRA_PLACA.equals(Character.toString(placaM.charAt(0)))) {
 			LocalDate today = LocalDate.now();

@@ -14,24 +14,24 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ceiba.estacinamiento.dominio.CalcularPrecio;
-import com.ceiba.estacinamiento.dominio.SalidaParqueadero;
+import com.ceiba.estacinamiento.dominio.SalidaVehiculo;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
-import com.ceiba.estacionamiento.controller.SalidaParqueaderoController;
+import com.ceiba.estacionamiento.controller.SalidaVehiculoController;
 import com.ceiba.estacionamiento.controller.VehiculoController;
 import com.ceiba.estacionamiento.estacionamiento.EstacionamientoApplication;
-import com.ceiba.estacionamiento.persistencia.service.SalidaParqueaderoService;
+import com.ceiba.estacionamiento.persistencia.service.SalidaVehiculoService;
 import com.ceiba.estacionamiento.persistencia.service.VehiculoService;
 import com.ceiba.estacionamiento.testdatabuilder.CalcularPrecioTestDataBuilder;
-import com.ceiba.estacionamiento.testdatabuilder.SalidaParqueaderoTestDataBuilder;
+import com.ceiba.estacionamiento.testdatabuilder.SalidaVehiculoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(classes = EstacionamientoApplication.class)
-public class SalidaParqueaderoControllerIntegrationUnit {
+public class SalidaVehiculoControllerIntegrationUnit {
 
 	@Autowired
-	private SalidaParqueaderoService salidaParqueaderoService;
-	private SalidaParqueaderoController salidaParqueaderoController;
+	private SalidaVehiculoService salidaParqueaderoService;
+	private SalidaVehiculoController salidaParqueaderoController;
 
 	private VehiculoController vehiculoController;
 
@@ -40,7 +40,7 @@ public class SalidaParqueaderoControllerIntegrationUnit {
 
 	@Before
 	public void setUp() {
-		salidaParqueaderoController = new SalidaParqueaderoController(salidaParqueaderoService);
+		salidaParqueaderoController = new SalidaVehiculoController(salidaParqueaderoService);
 		vehiculoController = new VehiculoController(vehiculoService);
 	}
 
@@ -49,26 +49,26 @@ public class SalidaParqueaderoControllerIntegrationUnit {
 //	@Rollback(true)
 	public void obtenerSalidasParqueaderoControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
-		vehiculoController.crearVehiculo(vehiculoTest);
+		vehiculoController.agregarVehiculoParqueadero(vehiculoTest);
 		List<Vehiculo> listaVehiculosObtenidos = vehiculoController.obtenerVehiculos();
-		SalidaParqueadero salidaParqueadero = new SalidaParqueaderoTestDataBuilder()
+		SalidaVehiculo salidaParqueadero = new SalidaVehiculoTestDataBuilder()
 				.conVehiculoSalida(listaVehiculosObtenidos.get(0)).build();
-		salidaParqueaderoController.crearSalidaParqueadero(salidaParqueadero);
-		List<SalidaParqueadero> listaSalidaConsultado = salidaParqueaderoController.obtenerSalidas();
+		salidaParqueaderoController.registrarSalidaVehiculo(salidaParqueadero);
+		List<SalidaVehiculo> listaSalidaConsultado = salidaParqueaderoController.obtenerHistorialVehiculos();
 		Assert.assertEquals(1, listaSalidaConsultado.size());
 	}
 
 //	@Test
 //	@Transactional
 //	@Rollback(true)
-	public void registrarSalidaParqueaderoControllerTest() {
+	public void registrarSalidaVehiculoControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
-		vehiculoController.crearVehiculo(vehiculoTest);
+		vehiculoController.agregarVehiculoParqueadero(vehiculoTest);
 		List<Vehiculo> listaVehiculosObtenidos = vehiculoController.obtenerVehiculos();
-		SalidaParqueadero salidaParqueadero = new SalidaParqueaderoTestDataBuilder()
+		SalidaVehiculo salidaParqueadero = new SalidaVehiculoTestDataBuilder()
 				.conVehiculoSalida(listaVehiculosObtenidos.get(0)).build();
-		salidaParqueaderoController.crearSalidaParqueadero(salidaParqueadero);
-		List<SalidaParqueadero> listaSalidaConsultado = salidaParqueaderoController.obtenerSalidas();
+		salidaParqueaderoController.registrarSalidaVehiculo(salidaParqueadero);
+		List<SalidaVehiculo> listaSalidaConsultado = salidaParqueaderoController.obtenerHistorialVehiculos();
 		Assert.assertEquals(salidaParqueadero.getVehiculoSalida().getPlaca(),
 				listaSalidaConsultado.get(0).getVehiculoSalida().getPlaca());
 		Assert.assertNotNull(listaSalidaConsultado.get(0).getFechaSalida());
@@ -78,13 +78,13 @@ public class SalidaParqueaderoControllerIntegrationUnit {
 //	@Test
 //	@Transactional
 //	@Rollback(true)
-	public void calcularValorControllerTest() {
+	public void calcularValorAPagarControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
-		vehiculoController.crearVehiculo(vehiculoTest);
+		vehiculoController.agregarVehiculoParqueadero(vehiculoTest);
 		List<Vehiculo> listaVehiculosObtenidos = vehiculoController.obtenerVehiculos();
 		CalcularPrecio calcularPrecio = new CalcularPrecioTestDataBuilder()
 				.conVehiculoSalida(listaVehiculosObtenidos.get(0)).build();
-		BigDecimal precioCalculado = salidaParqueaderoController.calcularValor(calcularPrecio);
+		BigDecimal precioCalculado = salidaParqueaderoController.calcularPrecioAPagar(calcularPrecio);
 		Assert.assertEquals(new BigDecimal(2500), precioCalculado);
 	}
 

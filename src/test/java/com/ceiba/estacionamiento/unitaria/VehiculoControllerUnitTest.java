@@ -43,7 +43,7 @@ public class VehiculoControllerUnitTest {
 	@Test
 	public void crearVehiculoControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
-		verify(vehiculoService, never()).agregar(any(Vehiculo.class));  
-		vehiculoController.crearVehiculo(vehiculoTest);
+		verify(vehiculoService, never()).agregarVehiculoParqueadero(any(Vehiculo.class));  
+		vehiculoController.agregarVehiculoParqueadero(vehiculoTest);
 	}
 }

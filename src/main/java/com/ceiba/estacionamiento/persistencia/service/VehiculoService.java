@@ -8,7 +8,7 @@ public interface VehiculoService {
 	
 	List<Vehiculo> obtenerVehiculos();
 	
-	void agregar(Vehiculo vehiculo);
+	void agregarVehiculoParqueadero(Vehiculo vehiculo);
 	
 	Vehiculo buscarVehiculoPorPlaca(String placa);
 

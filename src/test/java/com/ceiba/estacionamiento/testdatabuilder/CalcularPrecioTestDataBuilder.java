@@ -32,24 +32,12 @@ public class CalcularPrecioTestDataBuilder {
 		this.valorDiaVehiculo = VALOR_DIA_MOTO;
 	}
 
-	/**
-	 * Método encargado de asignarle un nuevo valor al atributo vehiculoSalida del
-	 * objeto CalcularPrecioTestDataBuilder
-	 * 
-	 * @param vehiculo, el vehiculo que sale del parqueadero
-	 * @return CalcularPrecioTestDataBuilder
-	 * 
-	 */
 	public CalcularPrecioTestDataBuilder conVehiculoSalida(Vehiculo vehiculo) {
 		this.vehiculoSalida = vehiculo;
 		return this;
 	}
 
-	/**
-	 * Método encargado de construir el objeto CalcularPrecio del dominio
-	 * 
-	 * @return CalcularPrecio, el objeto CalcularPrecio creado
-	 */
+
 	public CalcularPrecio build() {
 		return new CalcularPrecio(this.vehiculoSalida, this.valorHoraVehiculo, this.valorDiaVehiculo);
 	}

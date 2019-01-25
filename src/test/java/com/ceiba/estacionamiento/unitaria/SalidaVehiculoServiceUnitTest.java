@@ -18,86 +18,79 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.ceiba.establecimiento.enums.TipoVehiculoEnum;
-import com.ceiba.estacinamiento.dominio.SalidaParqueadero;
+import com.ceiba.estacinamiento.dominio.SalidaVehiculo;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
-import com.ceiba.estacionamiento.persistencia.builder.SalidaParqueaderoBuilder;
-import com.ceiba.estacionamiento.persistencia.entity.SalidaParqueaderoEntity;
+import com.ceiba.estacionamiento.persistencia.builder.SalidaVehiculoBuilder;
+import com.ceiba.estacionamiento.persistencia.entity.SalidaVehiculoEntity;
 import com.ceiba.estacionamiento.persistencia.entity.VehiculoEntity;
-import com.ceiba.estacionamiento.persistencia.repositorio.SalidaParqueaderoRepository;
+import com.ceiba.estacionamiento.persistencia.repositorio.SalidaVehiculoRepository;
 import com.ceiba.estacionamiento.persistencia.repositorio.VehiculoRepository;
-import com.ceiba.estacionamiento.persistencia.service.impl.SalidaParqueaderoServiceImpl;
-import com.ceiba.estacionamiento.testdatabuilder.SalidaParqueaderoTestDataBuilder;
+import com.ceiba.estacionamiento.persistencia.service.impl.SalidaVehiculoServiceImpl;
+import com.ceiba.estacionamiento.testdatabuilder.SalidaVehiculoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
-/**
- * clase que permite realizar las pruebas unitarias para la clase
- * SalidaParqueaderoPersistenciaRepository
- * 
- * @author jhon.bedoya
- *
- */
-public class SalidaParqueaderoServiceUnitTest {
+public class SalidaVehiculoServiceUnitTest {
 
-	private SalidaParqueaderoServiceImpl salidaParqueaderoService;
-	private SalidaParqueaderoRepository salidaParqueaderoRepository;
+	private SalidaVehiculoServiceImpl salidaParqueaderoService;
+	private SalidaVehiculoRepository salidaParqueaderoRepository;
 	private VehiculoRepository vehiculoRepository;
 
 
 	@Before
 	public void setUp() {
-		salidaParqueaderoRepository = Mockito.mock(SalidaParqueaderoRepository.class);
+		salidaParqueaderoRepository = Mockito.mock(SalidaVehiculoRepository.class);
 		vehiculoRepository = Mockito.mock(VehiculoRepository.class);
-		salidaParqueaderoService = new SalidaParqueaderoServiceImpl(salidaParqueaderoRepository, vehiculoRepository);
+		salidaParqueaderoService = new SalidaVehiculoServiceImpl(salidaParqueaderoRepository, vehiculoRepository);
 	}
 
 
 	@Test
-	public void agregarSalidaParqueaderoMotoExitoTest() {
+	public void agregarSalidaVehiculoTipoMotoExitoTest() {
 		// arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
-		SalidaParqueadero salidaParqueadero = new SalidaParqueaderoTestDataBuilder().conVehiculoSalida(vehiculo)
+		SalidaVehiculo salidaParqueadero = new SalidaVehiculoTestDataBuilder().conVehiculoSalida(vehiculo)
 				.build();
-		List<SalidaParqueaderoEntity> listaSalidaParqueaderoEntity = new ArrayList<>();
-		listaSalidaParqueaderoEntity.add(SalidaParqueaderoBuilder.convertirAEntity(salidaParqueadero));
-		SalidaParqueaderoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
+		List<SalidaVehiculoEntity> listaSalidaParqueaderoEntity = new ArrayList<>();
+		listaSalidaParqueaderoEntity.add(SalidaVehiculoBuilder.convertirAEntity(salidaParqueadero));
+		SalidaVehiculoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
 		Mockito.doReturn(listaSalidaParqueaderoEntity).when(salidaParqueaderoServiceSpy)
-				.obtenerSalidaVehiculosParqueadero();
+				.obtenerHistorialVehiculos();
 		Mockito.doReturn(new BigDecimal(15000)).when(salidaParqueaderoServiceSpy).calcularPrecioAPagar(vehiculo,
-				SalidaParqueaderoServiceImpl.VALOR_HORA_MOTO, SalidaParqueaderoServiceImpl.VALOR_DIA_MOTO);
-		verify(salidaParqueaderoRepository, never()).save((any(SalidaParqueaderoEntity.class)));
+				SalidaVehiculoServiceImpl.VALOR_HORA_MOTO, SalidaVehiculoServiceImpl.VALOR_DIA_MOTO);
+		verify(salidaParqueaderoRepository, never()).save((any(SalidaVehiculoEntity.class)));
 		verify(vehiculoRepository, never()).save((any(VehiculoEntity.class)));
 
 		// act
-		salidaParqueaderoServiceSpy.agregar(salidaParqueadero);
+		salidaParqueaderoServiceSpy.registrarSalidaVehiculo(salidaParqueadero);
 		// assert
-		List<SalidaParqueadero> listaSalidaParqueadero = salidaParqueaderoServiceSpy
-				.obtenerSalidaVehiculosParqueadero();
+		List<SalidaVehiculo> listaSalidaParqueadero = salidaParqueaderoServiceSpy
+				.obtenerHistorialVehiculos();
 		Assert.assertNotNull(listaSalidaParqueadero);
 		Assert.assertEquals(listaSalidaParqueaderoEntity.size(), listaSalidaParqueadero.size());
 	}
 
 
 	@Test
-	public void agregarSalidaParqueaderoCarroExitoTest() {
+	public void agregarSalidaVehiculoTipoCarroExitoTest() {
 		// arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conTipo(TipoVehiculoEnum.CARRO.name()).build();
-		SalidaParqueadero salidaParqueadero = new SalidaParqueaderoTestDataBuilder().conVehiculoSalida(vehiculo)
+		SalidaVehiculo salidaParqueadero = new SalidaVehiculoTestDataBuilder().conVehiculoSalida(vehiculo)
 				.build();
-		List<SalidaParqueaderoEntity> listaSalidaParqueaderoEntity = new ArrayList<>();
-		listaSalidaParqueaderoEntity.add(SalidaParqueaderoBuilder.convertirAEntity(salidaParqueadero));
-		SalidaParqueaderoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
+		List<SalidaVehiculoEntity> listaSalidaParqueaderoEntity = new ArrayList<>();
+		listaSalidaParqueaderoEntity.add(SalidaVehiculoBuilder.convertirAEntity(salidaParqueadero));
+		SalidaVehiculoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
 		Mockito.doReturn(listaSalidaParqueaderoEntity).when(salidaParqueaderoServiceSpy)
-				.obtenerSalidaVehiculosParqueadero();
+				.obtenerHistorialVehiculos();
 		Mockito.doReturn(new BigDecimal(15000)).when(salidaParqueaderoServiceSpy).calcularPrecioAPagar(vehiculo,
-				SalidaParqueaderoServiceImpl.VALOR_HORA_CARRO, SalidaParqueaderoServiceImpl.VALOR_DIA_CARRO);
-		verify(salidaParqueaderoRepository, never()).save((any(SalidaParqueaderoEntity.class)));
+				SalidaVehiculoServiceImpl.VALOR_HORA_CARRO, SalidaVehiculoServiceImpl.VALOR_DIA_CARRO);
+		verify(salidaParqueaderoRepository, never()).save((any(SalidaVehiculoEntity.class)));
 		verify(vehiculoRepository, never()).save((any(VehiculoEntity.class)));
 
 		// act
-		salidaParqueaderoServiceSpy.agregar(salidaParqueadero);
+		salidaParqueaderoServiceSpy.registrarSalidaVehiculo(salidaParqueadero);
 		// assert
-		List<SalidaParqueadero> listaSalidaParqueadero = salidaParqueaderoServiceSpy
-				.obtenerSalidaVehiculosParqueadero();
+		List<SalidaVehiculo> listaSalidaParqueadero = salidaParqueaderoServiceSpy
+				.obtenerHistorialVehiculos();
 		Assert.assertNotNull(listaSalidaParqueadero);
 		Assert.assertEquals(listaSalidaParqueaderoEntity.size(), listaSalidaParqueadero.size());
 
@@ -108,13 +101,13 @@ public class SalidaParqueaderoServiceUnitTest {
 	public void obtenerSalidaVehiculosParqueaderoTest() throws ParseException {
 		// arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conTipo(TipoVehiculoEnum.CARRO.name()).build();
-		SalidaParqueadero salidaParqueadero = new SalidaParqueaderoTestDataBuilder().conVehiculoSalida(vehiculo)
+		SalidaVehiculo salidaParqueadero = new SalidaVehiculoTestDataBuilder().conVehiculoSalida(vehiculo)
 				.build();
-		List<SalidaParqueaderoEntity> listaSalidaParqueaderoEntity = new ArrayList<>();
-		listaSalidaParqueaderoEntity.add(SalidaParqueaderoBuilder.convertirAEntity(salidaParqueadero));
+		List<SalidaVehiculoEntity> listaSalidaParqueaderoEntity = new ArrayList<>();
+		listaSalidaParqueaderoEntity.add(SalidaVehiculoBuilder.convertirAEntity(salidaParqueadero));
 		when(salidaParqueaderoRepository.obtenerSalidaVehiculosParqueadero()).thenReturn(listaSalidaParqueaderoEntity);
 		// act
-		List<SalidaParqueadero> listaSalidaParqueadero = salidaParqueaderoService.obtenerSalidaVehiculosParqueadero();
+		List<SalidaVehiculo> listaSalidaParqueadero = salidaParqueaderoService.obtenerHistorialVehiculos();
 		// assert
 		Assert.assertNotNull(listaSalidaParqueadero);
 		Assert.assertEquals(listaSalidaParqueaderoEntity.size(), listaSalidaParqueadero.size());
@@ -131,13 +124,13 @@ public class SalidaParqueaderoServiceUnitTest {
 		fechaC.set(Calendar.MINUTE, fechaC.get(Calendar.MINUTE) - 20);
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fechaC.getTime()).build();
 
-		SalidaParqueaderoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
+		SalidaVehiculoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
 		Mockito.doReturn(4L).when(salidaParqueaderoServiceSpy).diferenciaHoras(fechaC.getTime());
 		Mockito.doReturn(new BigDecimal(2000)).when(salidaParqueaderoServiceSpy).calcularPrecioPorHoras(4L,
-				SalidaParqueaderoServiceImpl.VALOR_HORA_MOTO);
+				SalidaVehiculoServiceImpl.VALOR_HORA_MOTO);
 		// act
 		BigDecimal precioAPagado = salidaParqueaderoServiceSpy.calcularPrecioAPagar(vehiculo,
-				SalidaParqueaderoServiceImpl.VALOR_HORA_MOTO, SalidaParqueaderoServiceImpl.VALOR_DIA_MOTO);
+				SalidaVehiculoServiceImpl.VALOR_HORA_MOTO, SalidaVehiculoServiceImpl.VALOR_DIA_MOTO);
 		// assert
 		Assert.assertNotNull(precioAPagado);
 		Assert.assertEquals(new BigDecimal(4000), precioAPagado);
@@ -153,11 +146,11 @@ public class SalidaParqueaderoServiceUnitTest {
 		fechaC.set(Calendar.HOUR, fechaC.get(Calendar.HOUR) - 10);
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fechaC.getTime())
 				.conTipo(TipoVehiculoEnum.CARRO.name()).build();
-		SalidaParqueaderoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
+		SalidaVehiculoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
 		Mockito.doReturn(10L).when(salidaParqueaderoServiceSpy).diferenciaHoras(fechaC.getTime());
 		// act
 		BigDecimal precioAPagado = salidaParqueaderoServiceSpy.calcularPrecioAPagar(vehiculo,
-				SalidaParqueaderoServiceImpl.VALOR_HORA_CARRO, SalidaParqueaderoServiceImpl.VALOR_DIA_CARRO);
+				SalidaVehiculoServiceImpl.VALOR_HORA_CARRO, SalidaVehiculoServiceImpl.VALOR_DIA_CARRO);
 		// assert
 		Assert.assertNotNull(precioAPagado);
 		Assert.assertEquals(new BigDecimal(8000), precioAPagado);
@@ -173,11 +166,11 @@ public class SalidaParqueaderoServiceUnitTest {
 		fechaC.set(Calendar.HOUR, fechaC.get(Calendar.HOUR) - 2);
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fechaC.getTime())
 				.conTipo(TipoVehiculoEnum.CARRO.name()).build();
-		SalidaParqueaderoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
+		SalidaVehiculoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
 		Mockito.doReturn(26L).when(salidaParqueaderoServiceSpy).diferenciaHoras(fechaC.getTime());
 		// act
 		BigDecimal precioAPagado = salidaParqueaderoServiceSpy.calcularPrecioAPagar(vehiculo,
-				SalidaParqueaderoServiceImpl.VALOR_HORA_CARRO, SalidaParqueaderoServiceImpl.VALOR_DIA_CARRO);
+				SalidaVehiculoServiceImpl.VALOR_HORA_CARRO, SalidaVehiculoServiceImpl.VALOR_DIA_CARRO);
 		// assert
 		Assert.assertNotNull(precioAPagado);
 		Assert.assertEquals(new BigDecimal(10000), precioAPagado);
@@ -193,11 +186,11 @@ public class SalidaParqueaderoServiceUnitTest {
 		fechaC.set(Calendar.HOUR, fechaC.get(Calendar.HOUR) - 10);
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conFechaIngreso(fechaC.getTime())
 				.conTipo(TipoVehiculoEnum.CARRO.name()).build();
-		SalidaParqueaderoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
+		SalidaVehiculoServiceImpl salidaParqueaderoServiceSpy = Mockito.spy(salidaParqueaderoService);
 		Mockito.doReturn(35L).when(salidaParqueaderoServiceSpy).diferenciaHoras(fechaC.getTime());
 		// act
 		BigDecimal precioAPagado = salidaParqueaderoServiceSpy.calcularPrecioAPagar(vehiculo,
-				SalidaParqueaderoServiceImpl.VALOR_HORA_CARRO, SalidaParqueaderoServiceImpl.VALOR_DIA_CARRO);
+				SalidaVehiculoServiceImpl.VALOR_HORA_CARRO, SalidaVehiculoServiceImpl.VALOR_DIA_CARRO);
 		// assert
 		Assert.assertNotNull(precioAPagado);
 		Assert.assertEquals(new BigDecimal(18000), precioAPagado);
@@ -206,7 +199,7 @@ public class SalidaParqueaderoServiceUnitTest {
 	@Test
 	public void calcularPrecioPorHorasTest() {
 		BigDecimal precioPorHoras = salidaParqueaderoService.calcularPrecioPorHoras(4l,
-				SalidaParqueaderoServiceImpl.VALOR_HORA_CARRO);
+				SalidaVehiculoServiceImpl.VALOR_HORA_CARRO);
 		// assert
 		Assert.assertNotNull(precioPorHoras);
 		Assert.assertEquals(new BigDecimal(4000), precioPorHoras);

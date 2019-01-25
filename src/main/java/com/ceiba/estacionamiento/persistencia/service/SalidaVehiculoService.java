@@ -2,14 +2,14 @@ package com.ceiba.estacionamiento.persistencia.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import com.ceiba.estacinamiento.dominio.SalidaParqueadero;
+import com.ceiba.estacinamiento.dominio.SalidaVehiculo;
 import com.ceiba.estacinamiento.dominio.Vehiculo;
 
-public interface SalidaParqueaderoService {
+public interface SalidaVehiculoService {
 	
-	void agregar(SalidaParqueadero salidaParqueadero);
+	void registrarSalidaVehiculo(SalidaVehiculo salidaParqueadero);
 	
-	List<SalidaParqueadero> obtenerSalidaVehiculosParqueadero();
+	List<SalidaVehiculo> obtenerHistorialVehiculos();
 	
 	BigDecimal calcularPrecioAPagar(Vehiculo vehiculoSalida, int valorHoraVehiculo, int valorDiaVehiculo);
 

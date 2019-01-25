@@ -37,7 +37,7 @@ public class VehiculoControllerIntegrationUnit {
 //	@Rollback(true)
 	public void obtenerVehiculosControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
-		vehiculoController.crearVehiculo(vehiculoTest);
+		vehiculoController.agregarVehiculoParqueadero(vehiculoTest);
 		List<Vehiculo> listaVehiculosObtenidos = vehiculoController.obtenerVehiculos();
 		Assert.assertEquals(1, listaVehiculosObtenidos.size());
 	}
@@ -47,7 +47,7 @@ public class VehiculoControllerIntegrationUnit {
 //	@Rollback(true)
 	public void crearVehiculoControllerTest() {
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("PTT26H").build();
-		vehiculoController.crearVehiculo(vehiculoTest);
+		vehiculoController.agregarVehiculoParqueadero(vehiculoTest);
 		List<Vehiculo> listaVehiculosObtenidos = vehiculoController.obtenerVehiculos();
 		Assert.assertEquals(listaVehiculosObtenidos.get(0).getPlaca(), vehiculoTest.getPlaca());
 	}

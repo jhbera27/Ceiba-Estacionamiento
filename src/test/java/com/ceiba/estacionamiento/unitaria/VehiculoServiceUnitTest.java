@@ -44,11 +44,11 @@ public class VehiculoServiceUnitTest {
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
 		VehiculoServiceImpl vehiculoServiceSpy = Mockito.spy(vehiculoService);
 		Mockito.doReturn(null).when(vehiculoServiceSpy).buscarVehiculoPorPlaca(vehiculo.getPlaca());
-		Mockito.doNothing().when(vehiculoServiceSpy).validarCreacionVehiculo(vehiculo);
-		Mockito.doNothing().when(vehiculoServiceSpy).verificarPlaca(vehiculo.getPlaca());
+		Mockito.doNothing().when(vehiculoServiceSpy).validarCupoParqueadero(vehiculo);
+		Mockito.doNothing().when(vehiculoServiceSpy).verificarPlacaPermitida(vehiculo.getPlaca());
 		verify(vehiculoRepository, never()).save((any(VehiculoEntity.class)));
 		// act
-		vehiculoServiceSpy.agregar(vehiculo);
+		vehiculoServiceSpy.agregarVehiculoParqueadero(vehiculo);
 		// assert
 		Assert.assertNull(vehiculoServiceSpy.buscarVehiculoPorPlaca(vehiculo.getPlaca()));
 	}
@@ -62,7 +62,7 @@ public class VehiculoServiceUnitTest {
 		Mockito.doReturn(listaVehiculos).when(vehiculoServiceSpy).obtenerVehiculos();
 		try {
 			// act
-			vehiculoServiceSpy.agregar(vehiculoTest);
+			vehiculoServiceSpy.agregarVehiculoParqueadero(vehiculoTest);
 		} catch (VehiculoException e) {
 			// assert
 			Assert.assertEquals(VehiculoServiceImpl.SIN_CUPO, e.getMessage());
@@ -80,7 +80,7 @@ public class VehiculoServiceUnitTest {
 		Mockito.doReturn(listaVehiculos).when(vehiculoServiceSpy).obtenerVehiculos();
 		try {
 			// act
-			vehiculoServiceSpy.agregar(vehiculoTest);
+			vehiculoServiceSpy.agregarVehiculoParqueadero(vehiculoTest);
 		} catch (VehiculoException e) {
 			// assert
 			Assert.assertEquals(VehiculoServiceImpl.SIN_CUPO, e.getMessage());
@@ -95,10 +95,10 @@ public class VehiculoServiceUnitTest {
 		Date fecha = formatter.parse(dateInString);
 		Vehiculo vehiculoTest = new VehiculoTestDataBuilder().conPlaca("AII21k").conFechaIngreso(fecha).build();
 		VehiculoServiceImpl vehiculoServiceSpy = Mockito.spy(vehiculoService);
-		Mockito.doNothing().when(vehiculoServiceSpy).validarCreacionVehiculo(vehiculoTest);
+		Mockito.doNothing().when(vehiculoServiceSpy).validarCupoParqueadero(vehiculoTest);
 		try {
 			// act
-			vehiculoServiceSpy.agregar(vehiculoTest);
+			vehiculoServiceSpy.agregarVehiculoParqueadero(vehiculoTest);
 		} catch (VehiculoException e) {
 			// assert
 			Assert.assertEquals(VehiculoServiceImpl.VEHICULO_NO_AUTORIZADO, e.getMessage());
@@ -115,11 +115,11 @@ public class VehiculoServiceUnitTest {
 				.conEstaParqueado(Boolean.FALSE).build();
 		VehiculoServiceImpl vehiculoServiceSpy = Mockito.spy(vehiculoService);
 		Mockito.doReturn(vehiculoTest).when(vehiculoServiceSpy).buscarVehiculoPorPlaca(vehiculoTest.getPlaca());
-		Mockito.doNothing().when(vehiculoServiceSpy).validarCreacionVehiculo(vehiculoTest);
-		Mockito.doNothing().when(vehiculoServiceSpy).verificarPlaca(vehiculoTest.getPlaca());
+		Mockito.doNothing().when(vehiculoServiceSpy).validarCupoParqueadero(vehiculoTest);
+		Mockito.doNothing().when(vehiculoServiceSpy).verificarPlacaPermitida(vehiculoTest.getPlaca());
 		verify(vehiculoRepository, never()).save((any(VehiculoEntity.class)));
 		// act
-		vehiculoServiceSpy.agregar(vehiculoTest);
+		vehiculoServiceSpy.agregarVehiculoParqueadero(vehiculoTest);
 	}
 
 
